@@ -1,0 +1,8 @@
+.cart-item-img {
+  width: 240px;
+  height: 210px;
+}
+.cart-item {
+  border-bottom: 1.2px solid #ddd;
+  margin-top: 10px;
+}

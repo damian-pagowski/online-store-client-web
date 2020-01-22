@@ -1,0 +1,11 @@
+.card-body {
+  padding: 0;
+}
+.category-name,
+.category-name:link,
+.category-name:hover,
+.category-name:active,
+.category-name:visited {
+  text-decoration: none;
+  color: rgb(33, 37, 41);
+}

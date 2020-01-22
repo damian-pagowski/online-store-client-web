@@ -1,0 +1,12 @@
+.navbar {
+  padding: 4px;
+}
+#logo {
+  margin: 0;
+  padding-left: 10px;
+  width: 50px;
+  height: 40px;
+}
+.icon-nav-right {
+  padding-right: 5px;
+}

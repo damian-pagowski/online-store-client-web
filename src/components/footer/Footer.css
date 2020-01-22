@@ -1,0 +1,18 @@
+.footer-columns {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 10px;
+  padding: 10px;
+}
+
+.footer-col {
+  text-align: center;
+  font-size: 80%;
+  font-weight: 600;
+}
+.footer-col > ul {
+  font-weight: 400;
+  list-style-type: none;
+  text-align: left;
+}

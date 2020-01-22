@@ -1,0 +1,12 @@
+#container-login {
+  width: 34vw;
+}
+
+#logo-login {
+  width: 15rem;
+  height: 15rem;
+}
+#card-login {
+  margin-top: 2rem;
+  padding: 2rem;
+}
