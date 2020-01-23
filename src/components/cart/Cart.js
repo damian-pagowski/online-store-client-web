@@ -2,6 +2,7 @@ import React from "react";
 import "./Cart.css";
 import CartItem from "../cart-item/CartItem";
 import CartSummary from "../cart-summary/CartSummary";
+import { connect } from "react-redux";
 
 const productData = {
   name: "U-Book Elite Laptop",
@@ -18,21 +19,27 @@ const cartData = {
   itemsCount: 3,
   total: "$9,999.99",
 };
-function Cart() {
-  return (
-    <div class="container">
-      <div class="grid-container">
-        <div class="item2">
-          <ul>
-            <CartItem data={productData} />
-          </ul>
-        </div>
-        <div class="item1">
-          <CartSummary data={cartData} />
+class Cart extends React.Component {
+  // componentDidMount() {}
+
+  render() {
+    return (
+      <div class="container">
+        <div class="grid-container">
+          <div class="item2">
+            <ul>
+              <CartItem data={productData} />
+            </ul>
+          </div>
+          <div class="item1">
+            <CartSummary data={cartData} />
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
-export default Cart;
+export default connect()(Cart);
+
+// export default Cart;

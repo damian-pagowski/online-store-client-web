@@ -1,7 +1,14 @@
 import React from "react";
 import "./ProductListItem.css";
+import { _addToCart } from "../../action-creators/cart-actions-creator";
+import { connect } from "react-redux";
+
 function ProductListItem(props) {
   const data = props.data;
+  const addToCart = () => {
+    console.log("click!");
+    props.dispatch(_addToCart(data));
+  };
   return (
     <li className="media product-list-item">
       <img src={data.image} className="mr-3 product-img" alt="..." />
@@ -26,8 +33,10 @@ function ProductListItem(props) {
           <div>{data.description}</div>
           <div>
             <h1>
-              <span className="badge badge-pill badge-light">{data.price}</span>
-              <i className="fa fa-cart-plus"></i>
+              <span className="badge badge-light mr-2">{data.price}</span>
+              <button className="btn btn-light">
+                <i className="fa fa-cart-plus" onClick={addToCart}></i>
+              </button>
             </h1>
           </div>
         </div>
@@ -35,5 +44,6 @@ function ProductListItem(props) {
     </li>
   );
 }
+export default connect()(ProductListItem);
 
-export default ProductListItem;
+// export default ProductListItem;

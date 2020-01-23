@@ -3,7 +3,7 @@ import "./Footer.css";
 
 function Footer() {
   return (
-    <nav className="navbar sticky-bottom navbar-light bg-light">
+    <nav className="navbar sticky-bottom navbar-light bg-light" id="footer">
       <div className="container">
         <div className="mx-auto">
           <small className="text-center">

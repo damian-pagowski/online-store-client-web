@@ -2,7 +2,7 @@ import React from "react";
 import ProductListItem from "../product-list-item/ProductListItem";
 import ProductCategoriesAccordion from "../product-categories/ProductCategories";
 import "./ProductListWrapper.css";
- 
+
 const productInfo = {
   name: "Another Hipster Game",
   image: "images/products/game.webp",
@@ -13,17 +13,18 @@ nunc ac nisi vulputate fringilla. Donec lacinia congue felis
 in faucibus.`,
   rating: "8/10",
   price: "$99.99",
+  productId: 1,
 };
 
 function ProductListWrapper() {
   return (
-    <div class="container">
-      <div class="grid-container">
-        <div class="item1">
+    <div className="product-list-container">
+      <div className="product-list-grid">
+        <div className="item1">
           <ProductCategoriesAccordion />
         </div>
-        <div class="item2">
-          <ul class="list-unstyled">
+        <div className="item2">
+          <ul className="list-unstyled">
             <ProductListItem data={productInfo} />
           </ul>
         </div>
