@@ -1,13 +1,16 @@
 const BASE_URL = process.env.REACT_APP_API_URL;
 
 const headers = {
-  Accept: "application/json",
+  "Content-Type": "application/json",
 };
 const api = {
   details() {
     return fetch(`${BASE_URL}/cart/details`, {
       method: "GET",
-      headers: headers(token),
+      headers: headers,
+      credentials: "include",
+      mode: 'cors', // no-cors, *cors, same-origin
+
     }).then(response => response.json());
   },
   add(item) {
@@ -15,8 +18,10 @@ const api = {
     let url = `${BASE_URL}/cart/add`;
     return fetch(url, {
       method: "POST",
-      body: item,
+      body: JSON.stringify(item),
       headers: headers,
+      credentials: "include",
+      mode: 'cors', // no-cors, *cors, same-origin
     }).then(response => response.json());
   },
 
@@ -27,6 +32,7 @@ const api = {
       method: "POST",
       body: item,
       headers: headers,
+      credentials: "same-origin",
     }).then(response => response.json());
   },
   delete(item) {
@@ -36,6 +42,7 @@ const api = {
       method: "POST",
       body: item,
       headers: headers,
+      credentials: "same-origin",
     }).then(response => response.json());
   },
 };

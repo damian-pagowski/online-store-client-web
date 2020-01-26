@@ -74,7 +74,7 @@ class Navbar extends React.Component {
             <li className="nav-item mr-4">
             
               <Link className="nav-link" to="/cart">
-                <span class="badge badge-pill badge-success">
+                <span className="badge badge-pill badge-success">
                   {numberOfProducts}
                 </span>
               <i className="fa fa-shopping-cart icon-nav-right"></i>

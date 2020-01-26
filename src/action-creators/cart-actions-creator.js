@@ -1,5 +1,5 @@
 import { createCart, addToCart } from "../actions/cart-actions";
-
+import api from "../api/cartAPI";
 const cart = {
   items: [],
   customerId: null,
@@ -16,7 +16,15 @@ export function _createCart() {
 
 export function _addToCart(item) {
   return (dispatch, getState) => {
+    api
+      .add({ productId: item.productId, quantity: 1 })
+      .then(() =>
+        api.details().then(details => console.log(JSON.stringify(details)))
+      );
+    console.log("adding item: " + JSON.stringify(item));
     dispatch(addToCart(item));
+    //call api get cart details (total, etc)
+    // dispatch cart update
   };
 }
 

@@ -1,4 +1,4 @@
-import { logIn, logOut } from "../actions/user-actions";
+import { logIn, logOut } from "../actions/users-actions";
 import api from "../api/usersApi";
 export function handleLogin(user) {
   return dispatch => {

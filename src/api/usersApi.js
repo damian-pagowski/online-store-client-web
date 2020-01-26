@@ -1,5 +1,4 @@
 const BASE_URL = process.env.REACT_APP_API_URL;
-const headerForm = { "content-type": "multipart/form-data" };
 const headerJson = { "content-type": "application/json" };
 
 const api = {
@@ -11,12 +10,15 @@ const api = {
     return fetch(`${BASE_URL}/users/login`, {
       method: "POST",
       headers: headerJson,
+      credentials: 'same-origin',
+
       body: JSON.stringify({ email, password }),
     }).then(response => response.json());
   },
   logout() {
     return fetch(`${BASE_URL}/users/logout`, {
       method: "GET",
+      credentials: 'same-origin',
     }).then(response => response.json());
   },
 };

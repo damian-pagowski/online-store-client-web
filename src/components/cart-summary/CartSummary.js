@@ -1,6 +1,6 @@
 import React from "react";
 import "./CartSummary.css";
-
+import { Link } from "react-router-dom";
 function CartSummary(props) {
   const data = props.data;
   return (
@@ -11,9 +11,9 @@ function CartSummary(props) {
         <h1 class="text-center mb-4">
           <span class="badge badge-pill badge-light">{data.total}</span>
         </h1>
-        <a href="#" class="btn btn-primary btn-block mb-2">
+        <Link to="/checkout" class="btn btn-primary btn-block mb-2">
           Proceed to checkout
-        </a>
+        </Link>
       </div>
     </div>
   );
