@@ -4,35 +4,27 @@ import CartItem from "../cart-item/CartItem";
 import CartSummary from "../cart-summary/CartSummary";
 import { connect } from "react-redux";
 
-const productData = {
-  name: "U-Book Elite Laptop",
-  description: `Cras sit amet nibh libero, in gravida nulla. Nulla vel metus
-    scelerisque ante sollicitudin. Cras purus odio, vestibulum
-    in vulputate at, tempus viverra turpis. Fusce condimentum
-    nunc ac nisi vulputate fringilla. Donec lacinia congue felis
-    in faucibus.`,
-  image: "images/products/laptop.webp",
-  price: "$1999.99",
-};
-
-const cartData = {
-  itemsCount: 3,
-  total: "$9,999.99",
-};
 class Cart extends React.Component {
-  // componentDidMount() {}
-
   render() {
+    const cartData = this.props.cart;
     return (
-      <div class="container">
-        <div class="grid-container">
-          <div class="item2">
+      <div className="container">
+        <div className="grid-container">
+          <div className="item2">
             <ul>
-              <CartItem data={productData} />
+              {cartData &&
+                cartData.items &&
+                cartData.items.map(item => <CartItem data={item} />)}
             </ul>
           </div>
-          <div class="item1">
-            <CartSummary data={cartData} />
+          <div className="item1">
+            <CartSummary
+              data={{
+                itemsCount: cartData.itemsCount,
+                total: cartData.total,
+                currency: cartData.currency,
+              }}
+            />
           </div>
         </div>
       </div>
@@ -40,6 +32,10 @@ class Cart extends React.Component {
   }
 }
 
-export default connect()(Cart);
+function mapStateToProps({ cart }) {
+  return {
+    cart,
+  };
+}
 
-// export default Cart;
+export default connect(mapStateToProps)(Cart);

@@ -9,7 +9,7 @@ function CartSummary(props) {
         <h5 class="card-title text-center">Shopping Cart</h5>
         <p class="card-text text-center">Subtotal ({data.itemsCount} items)</p>
         <h1 class="text-center mb-4">
-          <span class="badge badge-pill badge-light">{data.total}</span>
+          <span class="badge badge-pill badge-light">{`${data.currency} ${data.total}`}</span>
         </h1>
         <Link to="/checkout" class="btn btn-primary btn-block mb-2">
           Proceed to checkout
