@@ -4,16 +4,18 @@ import { Link } from "react-router-dom";
 function CartSummary(props) {
   const data = props.data;
   return (
-    <div class="card " id="card-cart">
-      <div class="card-body">
-        <h5 class="card-title text-center">Shopping Cart</h5>
-        <p class="card-text text-center">Subtotal ({data.itemsCount} items)</p>
-        <h1 class="text-center mb-4">
-          <span class="badge badge-pill badge-light">{`${data.currency} ${data.total}`}</span>
+    <div className="card " id="card-cart">
+      <div className="card-body">
+        <h5 className="card-title text-center">Shopping Cart</h5>
+        <p className="card-text text-center">Subtotal ({data.itemsCount} items)</p>
+        <h1 className="text-center mb-4">
+          <span className="badge badge-pill badge-light">{`${data.currency} ${data.total}`}</span>
         </h1>
-        <Link to="/checkout" class="btn btn-primary btn-block mb-2">
-          Proceed to checkout
-        </Link>
+        {data.total > 0 && (
+          <Link to="/checkout" className="btn btn-primary btn-block mb-2">
+            Proceed to checkout
+          </Link>
+        )}
       </div>
     </div>
   );

@@ -21,3 +21,9 @@ export function _addToCart(item) {
       .then(cart => dispatch(updateCart(cart)));
   };
 }
+
+export function _getCart() {
+  return (dispatch, getState) => {
+    api.details().then(cart => dispatch(updateCart(cart)));
+  };
+}

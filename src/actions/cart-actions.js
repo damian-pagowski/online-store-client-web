@@ -18,6 +18,7 @@ export function updateCart(cart) {
   return { type: CART_UPDATED, cart };
 }
 
+
 // export function checkout() {
 //   return { type: CART_CHECKOUT, item };
 // }

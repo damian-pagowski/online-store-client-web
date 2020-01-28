@@ -12,7 +12,7 @@ class Navbar extends React.Component {
   };
   render = () => {
     const user = this.props.user;
-    const numberOfProducts = this.props.cart.numberOfProducts || 0;
+    const itemsCount = this.props.cart.itemsCount || 0;
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <Link className="navbar-brand" to="/">
@@ -75,7 +75,7 @@ class Navbar extends React.Component {
             
               <Link className="nav-link" to="/cart">
                 <span className="badge badge-pill badge-success">
-                  {numberOfProducts}
+                  {itemsCount}
                 </span>
               <i className="fa fa-shopping-cart icon-nav-right"></i>
                 Cart

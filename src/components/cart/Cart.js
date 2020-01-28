@@ -3,8 +3,12 @@ import "./Cart.css";
 import CartItem from "../cart-item/CartItem";
 import CartSummary from "../cart-summary/CartSummary";
 import { connect } from "react-redux";
-
+import { _getCart } from "../../action-creators/cart-actions-creator";
 class Cart extends React.Component {
+  componentDidMount() {
+    this.props.dispatch(_getCart());
+  }
+
   render() {
     const cartData = this.props.cart;
     return (
@@ -12,9 +16,15 @@ class Cart extends React.Component {
         <div className="grid-container">
           <div className="item2">
             <ul>
-              {cartData &&
-                cartData.items &&
-                cartData.items.map(item => <CartItem data={item} />)}
+              {(cartData && cartData.items && cartData.items.length > 0) ? (
+                cartData.items.map(item => (
+                  <CartItem data={item} currency={cartData.currency} />
+                ))
+              ) : (
+                <div className="alert alert-danger mt-5" role="alert">
+                  <h2>Cart Empty</h2>
+                </div>
+              )}
             </ul>
           </div>
           <div className="item1">

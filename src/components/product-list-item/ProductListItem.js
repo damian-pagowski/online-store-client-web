@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 
 function ProductListItem(props) {
   const data = props.data;
+  const currency = props.currency;
   const addToCart = () => {
     console.log("click!");
     props.dispatch(_addToCart(data));
@@ -33,7 +34,7 @@ function ProductListItem(props) {
           <div>{data.description}</div>
           <div>
             <h1>
-              <span className="badge badge-light mr-2">{data.price}</span>
+              <span className="badge badge-light mr-2">{`${currency} ${data.price}`}</span>
               <button className="btn btn-light">
                 <i className="fa fa-cart-plus" onClick={addToCart}></i>
               </button>
