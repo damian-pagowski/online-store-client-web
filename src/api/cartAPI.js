@@ -9,8 +9,7 @@ const api = {
       method: "GET",
       headers: headers,
       credentials: "include",
-      mode: 'cors', // no-cors, *cors, same-origin
-
+      mode: "cors", // no-cors, *cors, same-origin
     }).then(response => response.json());
   },
   add(item) {
@@ -21,18 +20,22 @@ const api = {
       body: JSON.stringify(item),
       headers: headers,
       credentials: "include",
-      mode: 'cors', // no-cors, *cors, same-origin
+      mode: "cors", // no-cors, *cors, same-origin
     }).then(response => response.json());
   },
 
   update(item) {
     // productId, quantity
     let url = `${BASE_URL}/cart/edit`;
+    console.log("> edit > url : " + url);
+    console.log("> edit > body : " + JSON.stringify(item));
+
     return fetch(url, {
       method: "POST",
-      body: item,
+      body: JSON.stringify(item),
       headers: headers,
-      credentials: "same-origin",
+      credentials: "include",
+      mode: "cors", // no-cors, *cors, same-origin
     }).then(response => response.json());
   },
   delete(item) {

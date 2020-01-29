@@ -1,6 +1,8 @@
 import React from "react";
 import "./CartItem.css";
 import Select from "react-select";
+import { _updateQuantity } from "../../action-creators/cart-actions-creator";
+import { connect } from "react-redux";
 
 function CartItem(props) {
   const data = props.data;
@@ -10,7 +12,13 @@ function CartItem(props) {
     value: i + 1,
     label: `${i + 1}`,
   }));
-  // console.log(JSON.stringify(options));
+
+  const handleChange = e => {
+    props.dispatch(
+      _updateQuantity({ productId: data.productId, quantity: e.value })
+    );
+  };
+
   return (
     <li className="media cart-item">
       <img src={data.image} className="mr-3 cart-item-img" alt={data.name} />
@@ -20,42 +28,40 @@ function CartItem(props) {
 
           <div>{data.description}</div>
           <div>
-            <h5>
-              <div className="input-group my-3">
-                <div className="input-group-prepend">
-                  <label className="input-group-text" for="quantity-select">
-                    Quantity
-                  </label>
-                </div>
-
-                <Select
-                  // className="custom-select"
-                  id="quantity-select"
-                  value={{
-                    value: data.quantity,
-                    label: `${data.quantity}`,
-                  }}
-                  onChange={props.handleChange}
-                  options={options}
-                />
-                <div className="input-group-append">
-                  <button className="btn btn-outline-secondary" type="button">
-                    <i className="fa fa-trash"></i>
-                  </button>
-                </div>
-                <div className="badge badge-pill badge-light">
-                  {`Unit Price ${currency} ${data.price}`}
-                </div>
-                <div className="badge badge-pill badge-light">
-                  {`Subtotal ${currency} ${data.subTotal}`}
-                </div>
+            <div className="input-group my-3">
+              <div className="input-group-prepend">
+                <label className="input-group-text" for="quantity-select">
+                  Quantity
+                </label>
               </div>
-            </h5>
+
+              <Select
+                id="quantity-select"
+                value={{
+                  value: data.quantity,
+                  label: `${data.quantity}`,
+                }}
+                onChange={handleChange}
+                options={options}
+              />
+              <div className="input-group-append">
+                <button className="btn btn-outline-secondary" type="button">
+                  <i className="fa fa-trash"></i>
+                </button>
+              </div>
+              <div className="badge badge-pill badge-light">
+                {`Unit Price ${currency} ${data.price}`}
+              </div>
+              <div className="badge badge-pill badge-light">
+                {`Subtotal ${currency} ${data.subTotal}`}
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </li>
   );
 }
+export default connect()(CartItem);
 
-export default CartItem;
+// export default CartItem;

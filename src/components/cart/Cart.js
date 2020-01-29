@@ -16,7 +16,7 @@ class Cart extends React.Component {
         <div className="grid-container">
           <div className="item2">
             <ul>
-              {(cartData && cartData.items && cartData.items.length > 0) ? (
+              {cartData && cartData.items && cartData.items.length > 0 ? (
                 cartData.items.map(item => (
                   <CartItem data={item} currency={cartData.currency} />
                 ))

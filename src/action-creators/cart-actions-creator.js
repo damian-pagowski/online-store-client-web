@@ -22,6 +22,14 @@ export function _addToCart(item) {
   };
 }
 
+export function _updateQuantity(item) {
+  return (dispatch, getState) => {
+    api
+      .update({ productId: item.productId, quantity: item.quantity })
+      .then(cart => dispatch(updateCart(cart)));
+  };
+}
+
 export function _getCart() {
   return (dispatch, getState) => {
     api.details().then(cart => dispatch(updateCart(cart)));
