@@ -22,7 +22,6 @@ function ProductListItem(props) {
               </small>
             ))}
           </div>
-
           <div>
             <span class={`fa fa-star ${data.rating >= 1 && "checked"}`}></span>
             <span class={`fa fa-star ${data.rating >= 2 && "checked"}`}></span>

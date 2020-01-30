@@ -10,5 +10,11 @@ const api = {
       headers: headers,
     }).then(response => response.json());
   },
+  categories() {
+    return fetch(`${BASE_URL}/products/categories`, {
+      method: "GET",
+      headers: headers,
+    }).then(response => response.json());
+  },
 };
 export default api;
