@@ -24,14 +24,17 @@ class ProductListWrapper extends React.Component {
           <div className="item2">
            
             <ul className="list-unstyled">
-              {products &&
+              { (products && products.length > 0 )?
                 products.map(productData => (
                   <ProductListItem
                     data={productData}
                     currency={currency}
                     key={productData.productId}
                   />
-                ))}
+                )) : <div class="alert alert-danger" role="alert">
+                Sorry, there are no products matching your criteria.<a href="#" class="alert-link"> Browse All</a>.
+              </div>
+              }
             </ul>
           </div>
         </div>

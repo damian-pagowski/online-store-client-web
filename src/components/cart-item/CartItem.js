@@ -1,7 +1,10 @@
 import React from "react";
 import "./CartItem.css";
 import Select from "react-select";
-import { _updateQuantity } from "../../action-creators/cart-actions-creator";
+import {
+  _updateQuantity,
+  _removeItem,
+} from "../../action-creators/cart-actions-creator";
 import { connect } from "react-redux";
 
 function CartItem(props) {
@@ -17,6 +20,10 @@ function CartItem(props) {
     props.dispatch(
       _updateQuantity({ productId: data.productId, quantity: e.value })
     );
+  };
+  const handleRemove = e => {
+    console.log("REMOVE");
+    props.dispatch(_removeItem({ productId: data.productId }));
   };
 
   return (
@@ -45,7 +52,11 @@ function CartItem(props) {
                 options={options}
               />
               <div className="input-group-append">
-                <button className="btn btn-outline-secondary" type="button">
+                <button
+                  className="btn btn-outline-secondary"
+                  type="button"
+                  onClick={handleRemove}
+                >
                   <i className="fa fa-trash"></i>
                 </button>
               </div>

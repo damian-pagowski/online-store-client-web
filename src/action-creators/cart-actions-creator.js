@@ -30,6 +30,14 @@ export function _updateQuantity(item) {
   };
 }
 
+export function _removeItem(item) {
+  return (dispatch, getState) => {
+    api
+      .delete({ productId: item.productId})
+      .then(cart => dispatch(updateCart(cart)));
+  };
+}
+
 export function _getCart() {
   return (dispatch, getState) => {
     api.details().then(cart => dispatch(updateCart(cart)));

@@ -39,13 +39,13 @@ const api = {
     }).then(response => response.json());
   },
   delete(item) {
-    // productId
     let url = `${BASE_URL}/cart/remove`;
     return fetch(url, {
       method: "POST",
-      body: item,
+      body: JSON.stringify(item),
       headers: headers,
-      credentials: "same-origin",
+      credentials: "include",
+      mode: "cors",
     }).then(response => response.json());
   },
 };
