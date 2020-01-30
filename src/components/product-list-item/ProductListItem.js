@@ -19,17 +19,12 @@ function ProductListItem(props) {
             {data.name}
             <span className="badge badge-warning ml-2">Bastseller</span>
           </h5>
-          <div className="progress">
-            <div
-              className="progress-bar bg-success"
-              role="progressbar"
-              style={{ width: "80%" }}
-              aria-valuenow="80"
-              aria-valuemin="0"
-              aria-valuemax="100"
-            >
-              {data.rating}
-            </div>
+          <div>
+            <span class={`fa fa-star ${data.rating >= 1 && "checked"}`}></span>
+            <span class={`fa fa-star ${data.rating >= 2 && "checked"}`}></span>
+            <span class={`fa fa-star ${data.rating >= 3 && "checked"}`}></span>
+            <span class={`fa fa-star ${data.rating >= 4 && "checked"}`}></span>
+            <span class={`fa fa-star ${data.rating == 5 && "checked"}`}></span>
           </div>
           <div>{data.description}</div>
           <div>
