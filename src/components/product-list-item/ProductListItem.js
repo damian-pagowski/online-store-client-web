@@ -15,10 +15,15 @@ function ProductListItem(props) {
       <img src={data.image} className="mr-3 product-img" alt="..." />
       <div className="media-body ">
         <div className="product-info-wrapper mx-4">
-          <h5 className="mt-1 mb-2 ">
-            {data.name}
-            <span className="badge badge-warning ml-2">Bastseller</span>
-          </h5>
+          <div className="mt-1 mb-2 ">
+            <span className="h5">{data.name}</span>
+            {data.badges.map(text => (
+              <small>
+                <span className="badge badge-warning ml-2">{text}</span>
+              </small>
+            ))}
+          </div>
+
           <div>
             <span class={`fa fa-star ${data.rating >= 1 && "checked"}`}></span>
             <span class={`fa fa-star ${data.rating >= 2 && "checked"}`}></span>
@@ -28,12 +33,12 @@ function ProductListItem(props) {
           </div>
           <div>{data.description}</div>
           <div>
-            <h1>
+            <h3>
               <span className="badge badge-light mr-2">{`${currency} ${data.price}`}</span>
               <button className="btn btn-light">
                 <i className="fa fa-cart-plus" onClick={addToCart}></i>
               </button>
-            </h1>
+            </h3>
           </div>
         </div>
       </div>
