@@ -7,7 +7,6 @@ function ProductListItem(props) {
   const data = props.data;
   const currency = props.currency;
   const addToCart = () => {
-    console.log("click!");
     props.dispatch(_addToCart(data));
   };
   return (
@@ -46,5 +45,3 @@ function ProductListItem(props) {
   );
 }
 export default connect()(ProductListItem);
-
-// export default ProductListItem;
