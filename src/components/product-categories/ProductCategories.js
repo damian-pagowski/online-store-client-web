@@ -2,16 +2,42 @@ import React from "react";
 import "./ProductCategories.css";
 import { connect } from "react-redux";
 import { _getCategories } from "../../action-creators/categories-actions-creator";
+import { _getProducts } from "../../action-creators/products-actions-creator";
 
 class ProductCategoriesAccordion extends React.Component {
   componentDidMount() {
     this.props.dispatch(_getCategories());
   }
+
+  showSubcategory = (category, subcategory) => {
+    this.props.dispatch(_getProducts(category, subcategory));
+  }
+
+  showAllProducts = () => {
+    this.props.dispatch(_getProducts());
+  }
+
+
   render() {
     const categories = this.props.categories;
     console.log("> categories > " + JSON.stringify(categories));
     return (
       <div>
+        <div className="accordion">
+          <div className="card">
+            <div className="card-header">
+              <h2 className="mb-0">
+                <button
+                  className="btn btn-link collapsed category-name"
+                  type="button"
+                  onClick={this.showAllProducts}
+                >
+                  Show All
+                    </button>
+              </h2>
+            </div>
+          </div>
+        </div>
         {Object.keys(categories).length > 0 &&
           Object.keys(categories).map((key, i) => (
             <div className="accordion" id="productCategoriesAccordion" key={i}>
@@ -26,7 +52,8 @@ class ProductCategoriesAccordion extends React.Component {
                       aria-expanded="false"
                       aria-controls={`collapse-${i}`}
                     >
-                      {categories[key].display}
+                      {categories[key].display}  <i class="fa fa-chevron-down" aria-hidden="true"></i>
+
                     </button>
                   </h2>
                 </div>
@@ -45,6 +72,7 @@ class ProductCategoriesAccordion extends React.Component {
                             className="list-group-item"
                             subcategory={sub}
                             key={i}
+                            onClick={() => this.showSubcategory(key, sub)}
                           >
                             {categories[key].subcategories[sub]}
                           </li>
