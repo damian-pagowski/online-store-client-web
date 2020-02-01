@@ -11,12 +11,18 @@ class ProductCategoriesAccordion extends React.Component {
 
   showSubcategory = (category, subcategory) => {
     this.props.dispatch(_getProducts(category, subcategory));
-  }
+  };
 
   showAllProducts = () => {
     this.props.dispatch(_getProducts());
-  }
+  };
 
+  toggleIcon = elementId => {
+    const icon = document.getElementById(elementId);
+
+    icon.classList.toggle("fa-chevron-down");
+    icon.classList.toggle("fa-chevron-up");
+  };
 
   render() {
     const categories = this.props.categories;
@@ -33,7 +39,7 @@ class ProductCategoriesAccordion extends React.Component {
                   onClick={this.showAllProducts}
                 >
                   Show All
-                    </button>
+                </button>
               </h2>
             </div>
           </div>
@@ -51,9 +57,14 @@ class ProductCategoriesAccordion extends React.Component {
                       data-target={`#collapse-${i}`}
                       aria-expanded="false"
                       aria-controls={`collapse-${i}`}
+                      onClick={() => this.toggleIcon(`collapse-${i}-icon`)}
                     >
-                      {categories[key].display}  <i class="fa fa-chevron-down" aria-hidden="true"></i>
-
+                      {categories[key].display}{" "}
+                      <i
+                        id={`collapse-${i}-icon`}
+                        class={`fa fa-chevron-${i == 0 ? "up" : "down"}`}
+                        aria-hidden="true"
+                      ></i>
                     </button>
                   </h2>
                 </div>
