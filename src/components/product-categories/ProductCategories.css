@@ -9,3 +9,6 @@
   text-decoration: none;
   color: rgb(33, 37, 41);
 }
+.list-group-item{
+  cursor: pointer;
+}

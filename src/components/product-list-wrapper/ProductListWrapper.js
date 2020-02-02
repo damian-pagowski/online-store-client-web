@@ -32,7 +32,7 @@ class ProductListWrapper extends React.Component {
                     key={productData.productId}
                   />
                 )) : <div class="alert alert-danger" role="alert">
-                Sorry, there are no products matching your criteria.<a href="#" class="alert-link"> Browse All</a>.
+                Sorry, there are no products matching your criteria<a href="#" class="alert-link"> Show All</a>
               </div>
               }
             </ul>

@@ -22,7 +22,7 @@ class Cart extends React.Component {
                 ))
               ) : (
                 <div className="alert alert-danger mt-5" role="alert">
-                  <h2>Cart Empty</h2>
+                  <h2 className="text-center">Cart Empty</h2>
                 </div>
               )}
             </ul>
