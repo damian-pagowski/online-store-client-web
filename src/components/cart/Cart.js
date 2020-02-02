@@ -12,8 +12,8 @@ class Cart extends React.Component {
   render() {
     const cartData = this.props.cart;
     return (
-      <div className="container">
-        <div className="grid-container">
+      <div className="cart-container">
+        <div className="cart-grid-container">
           <div className="item2">
             <ul>
               {cartData && cartData.items && cartData.items.length > 0 ? (
