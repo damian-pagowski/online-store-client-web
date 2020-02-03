@@ -62,7 +62,7 @@ class ProductCategoriesAccordion extends React.Component {
                       {categories[key].display}{" "}
                       <i
                         id={`collapse-${i}-icon`}
-                        class={`fa fa-chevron-${i == 0 ? "up" : "down"}`}
+                        class={`fa fa-chevron-${i === 0 ? "up" : "down"}`}
                         aria-hidden="true"
                       ></i>
                     </button>
@@ -71,7 +71,7 @@ class ProductCategoriesAccordion extends React.Component {
 
                 <div
                   id={`collapse-${i}`}
-                  className={`collapse ${i == 0 && "show"}`}
+                  className={`collapse ${i === 0 && "show"}`}
                   aria-labelledby={`heading-${i}`}
                   data-parent="#productCategoriesAccordion"
                 >

@@ -12,8 +12,8 @@ class Cart extends React.Component {
   render() {
     const cartData = this.props.cart;
     return (
-      <div className="container">
-        <div className="grid-container">
+      <div className="cart-container">
+        <div className="cart-grid-container">
           <div className="item2">
             <ul>
               {cartData && cartData.items && cartData.items.length > 0 ? (
@@ -22,7 +22,7 @@ class Cart extends React.Component {
                 ))
               ) : (
                 <div className="alert alert-danger mt-5" role="alert">
-                  <h2>Cart Empty</h2>
+                  <h2 className="text-center">Cart Empty</h2>
                 </div>
               )}
             </ul>

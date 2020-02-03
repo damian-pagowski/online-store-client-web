@@ -5,14 +5,12 @@ function Footer() {
   return (
     <nav className="navbar sticky-bottom navbar-light bg-light" id="footer">
       <div className="container">
-        <div className="mx-auto">
-          <small className="text-center">
-            <span className="badge badge-secondary">Back to top</span>
-          </small>
+        <div className="mx-auto mt-2">
+         
         </div>
       </div>
 
-      <div className="container">
+      <div className="footer-container">
         <div className="footer-columns">
           <div className="footer-col">
             <ul>
@@ -44,8 +42,7 @@ function Footer() {
           </div>
         </div>
       </div>
-      <div className="mx-auto">
-        <small className="text-center">All Rights Reserved &copy; 2019</small>
+      <div className="mx-auto mb-2">
       </div>
     </nav>
   );

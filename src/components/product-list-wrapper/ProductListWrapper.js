@@ -33,10 +33,10 @@ class ProductListWrapper extends React.Component {
                 ))
               ) : (
                 <div class="alert alert-danger" role="alert">
-                  Sorry, there are no products matching your criteria.
+                  Sorry, there are no products matching your criteria
                   <a href="#" class="alert-link">
                     {" "}
-                    Browse All
+                    Show All
                   </a>
                 </div>
               )}
