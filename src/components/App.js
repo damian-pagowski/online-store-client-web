@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { _createCart } from "../action-creators/cart-actions-creator";
+import PaymentResult from "./payment/PaymentResult";
 class App extends React.Component {
   componentDidMount() {
     this.props.dispatch(_createCart());
@@ -26,6 +27,21 @@ class App extends React.Component {
   }
 }
 
+const dataPaymentSuccess = {
+  title: "Purchase was successful",
+  message: "Your item will be sent to you within 48 hours.",
+  icon: "fa-check-circle",
+  backUrl: "/",
+  backText: "Back to Shop",
+};
+const dataPaymentFailed = {
+  title: "Payment Failed!",
+  message: "Please try again later",
+  backUrl: "/cart",
+  icon: "fa-warning",
+  backText: "Back to Cart",
+};
+
 const DefaultContainer = props => (
   <div>
     <Navbar />
@@ -40,6 +56,15 @@ const DefaultContainer = props => (
       )}
     />
     <Route path="/cart" component={Cart} />
+    <Route
+      path="/checkout-success"
+      render={() => <PaymentResult data={dataPaymentSuccess} />}
+    />
+    <Route
+      path="/checkout-fail"
+      render={() => <PaymentResult data={dataPaymentFailed} />}
+    />
+
     <Footer />
   </div>
 );
@@ -52,5 +77,3 @@ const LoginContainer = props => (
   </div>
 );
 export default connect()(App);
-
-// export default App;

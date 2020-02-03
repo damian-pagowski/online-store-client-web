@@ -15,9 +15,7 @@ function CartSummary(props) {
           sessionId: r.session.id,
         })
         .then(function(result) {
-          console.log(
-            "redirect to session completed: " + JSON.stringify(result)
-          );
+          console.log("Payment Result: " + JSON.stringify(result));
         });
     });
   };

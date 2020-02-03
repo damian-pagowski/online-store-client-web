@@ -1,0 +1,13 @@
+#check-circle {
+  width: 3rem;
+  height: 3rem;
+  display: block;
+  margin: auto;
+}
+
+.fa-warning {
+  color: red !important;
+}
+.fa-check-circle {
+  color: #28a745 !important;
+}
