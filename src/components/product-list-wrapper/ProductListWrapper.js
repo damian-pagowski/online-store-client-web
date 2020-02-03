@@ -22,19 +22,24 @@ class ProductListWrapper extends React.Component {
             <ProductCategoriesAccordion />
           </div>
           <div className="item2">
-           
             <ul className="list-unstyled">
-              { (products && products.length > 0 )?
-                products.map(productData => (
+              {products && products.length > 0 ? (
+                products.map((productData, i) => (
                   <ProductListItem
                     data={productData}
                     currency={currency}
-                    key={productData.productId}
+                    key={i}
                   />
-                )) : <div class="alert alert-danger" role="alert">
-                Sorry, there are no products matching your criteria.<a href="#" class="alert-link"> Browse All</a>.
-              </div>
-              }
+                ))
+              ) : (
+                <div class="alert alert-danger" role="alert">
+                  Sorry, there are no products matching your criteria.
+                  <a href="#" class="alert-link">
+                    {" "}
+                    Browse All
+                  </a>
+                </div>
+              )}
             </ul>
           </div>
         </div>
