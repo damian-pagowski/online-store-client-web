@@ -23,7 +23,18 @@ const api = {
       mode: "cors", // no-cors, *cors, same-origin
     }).then(response => response.json());
   },
-
+  charge() {
+    // productId, quantity
+    let url = `${BASE_URL}/cart/charge`;
+    return fetch(url, {
+      method: "GET",
+      headers: headers,
+      credentials: "include",
+      mode: "cors", // no-cors, *cors, same-origin
+    })
+      .then(response => response.json())
+      .catch(error => console.log(error));
+  },
   update(item) {
     // productId, quantity
     let url = `${BASE_URL}/cart/edit`;
