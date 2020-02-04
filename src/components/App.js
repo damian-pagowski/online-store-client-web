@@ -8,6 +8,7 @@ import Cart from "./cart/Cart";
 import Login from "./login/Login";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
+import Loader from "./loader/Loader";
 
 import { _getCart } from "../action-creators/cart-actions-creator";
 import PaymentResult from "./payment/PaymentResult";
@@ -22,12 +23,23 @@ class App extends React.Component {
       this.props.dispatch(logIn({ ...data }));
     }
   }
+
   render() {
+    console.log("LOADING >> " + this.props.loadingBar.default);
+
     return (
       <Router>
         <Switch>
-          <Route exact path="/login" component={LoginContainer} />
-          <Route component={DefaultContainer} />
+          <Route
+            exact
+            path="/login"
+            render={() => <LoginContainer loadingBar={this.props.loadingBar} />}
+          />
+          <Route
+            render={() => (
+              <DefaultContainer loadingBar={this.props.loadingBar} />
+            )}
+          />
         </Switch>
       </Router>
     );
@@ -49,38 +61,50 @@ const dataPaymentFailed = {
   backText: "Back to Cart",
 };
 
-const DefaultContainer = props => (
-  <div>
-    <Navbar />
-    <Route
-      exact
-      path="/"
-      render={() => (
-        <div>
-          <Carousel />
-          <ProductListWrapper />
-        </div>
-      )}
-    />
-    <Route path="/cart" component={Cart} />
-    <Route
-      path="/checkout-success"
-      render={() => <PaymentResult data={dataPaymentSuccess} />}
-    />
-    <Route
-      path="/checkout-fail"
-      render={() => <PaymentResult data={dataPaymentFailed} />}
-    />
-
-    <Footer />
-  </div>
-);
-
-const LoginContainer = props => (
-  <div className="App">
-    <div className="container">
-      <Route path="/login" component={Login} />
+const DefaultContainer = props =>
+  props.loadingBar && props.loadingBar.default >= 1 ? (
+    <Loader />
+  ) : (
+    <div>
+      <Navbar />
+      <Route
+        exact
+        path="/"
+        render={() => (
+          <div>
+            <Carousel />
+            <ProductListWrapper />
+          </div>
+        )}
+      />
+      <Route path="/cart" component={Cart} />
+      <Route
+        path="/checkout-success"
+        render={() => <PaymentResult data={dataPaymentSuccess} />}
+      />
+      <Route
+        path="/checkout-fail"
+        render={() => <PaymentResult data={dataPaymentFailed} />}
+      />
+      <Footer />
     </div>
-  </div>
-);
-export default connect()(App);
+  );
+
+const LoginContainer = props =>
+  props.loadingBar && props.loadingBar.default >= 1 ? (
+    <Loader />
+  ) : (
+    <div className="App">
+      <div className="container">
+        <Route path="/login" component={Login} />
+      </div>
+    </div>
+  );
+
+function mapStateToProps({ loadingBar }) {
+  return {
+    loadingBar,
+  };
+}
+
+export default connect(mapStateToProps)(App);

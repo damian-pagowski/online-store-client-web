@@ -1,18 +1,5 @@
-import { createCart, updateCart } from "../actions/cart-actions";
+import { updateCart } from "../actions/cart-actions";
 import api from "../api/cartAPI";
-const cart = {
-  items: [],
-  customerId: null,
-  sessionId: null,
-  paid: false,
-  created: new Date(),
-};
-
-export function _createCart() {
-  return (dispatch, getState) => {
-    dispatch(createCart(cart));
-  };
-}
 
 export function _addToCart(item) {
   return (dispatch, getState) => {
@@ -26,20 +13,24 @@ export function _updateQuantity(item) {
   return (dispatch, getState) => {
     api
       .update({ productId: item.productId, quantity: item.quantity })
-      .then(cart => dispatch(updateCart(cart)));
+      .then(cart => {
+        dispatch(updateCart(cart));
+      });
   };
 }
 
 export function _removeItem(item) {
   return (dispatch, getState) => {
-    api
-      .delete({ productId: item.productId})
-      .then(cart => dispatch(updateCart(cart)));
+    api.delete({ productId: item.productId }).then(cart => {
+      dispatch(updateCart(cart));
+    });
   };
 }
 
 export function _getCart() {
   return (dispatch, getState) => {
-    api.details().then(cart => dispatch(updateCart(cart)));
+    api.details().then(cart => {
+      dispatch(updateCart(cart));
+    });
   };
 }
