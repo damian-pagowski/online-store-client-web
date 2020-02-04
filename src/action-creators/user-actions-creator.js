@@ -9,8 +9,8 @@ export function handleLogin(user) {
     api.login(user.email, user.password).then(data => {
       localStorage.setItem("shop-user-profile", JSON.stringify({ ...data }));
       dispatch(logIn({ ...data }));
-      dispatch(hideLoading());
-    });
+    }).catch(error => console.log("Error while logging in: " + error));
+    dispatch(hideLoading());
   };
 }
 

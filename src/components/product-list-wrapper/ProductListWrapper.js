@@ -15,38 +15,37 @@ class ProductListWrapper extends React.Component {
     const products = Object.values(this.props.products);
     const currency = this.props.currency;
     console.log(">> products : " + JSON.stringify(products));
- 
-      return (
-        <div className="product-list-container">
-          <div className="product-list-grid">
-            <div className="item1">
-              <ProductCategoriesAccordion />
-            </div>
-            <div className="item2">
-              <ul className="list-unstyled">
-                {products && products.length > 0 ? (
-                  products.map((productData, i) => (
-                    <ProductListItem
-                      data={productData}
-                      currency={currency}
-                      key={i}
-                    />
-                  ))
-                ) : (
-                  <div class="alert alert-danger" role="alert">
-                    Sorry, there are no products matching your criteria
-                    <a href="#" class="alert-link">
-                      {" "}
-                      Show All
-                    </a>
-                  </div>
-                )}
-              </ul>
-            </div>
+
+    return (
+      <div className="product-list-container">
+        <div className="product-list-grid">
+          <div className="item1">
+            <ProductCategoriesAccordion />
+          </div>
+          <div className="item2">
+            <ul className="list-unstyled">
+              {products && products.length > 0 ? (
+                products.map((productData, i) => (
+                  <ProductListItem
+                    data={productData}
+                    currency={currency}
+                    key={productData.productId}
+                  />
+                ))
+              ) : (
+                <div className="alert alert-danger" role="alert">
+                  Sorry, there are no products matching your criteria
+                  <a href="#" className="alert-link">
+                    {" "}
+                    Show All
+                  </a>
+                </div>
+              )}
+            </ul>
           </div>
         </div>
-      );
-    
+      </div>
+    );
   }
 }
 

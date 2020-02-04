@@ -16,18 +16,18 @@ function ProductListItem(props) {
         <div className="product-info-wrapper mx-4">
           <div className="mt-1 mb-2 ">
             <span className="h5">{data.name}</span>
-            {data.badges.map(text => (
-              <small>
+            {data.badges.map((text, i) => (
+              <small key={i}>
                 <span className="badge badge-warning ml-2">{text}</span>
               </small>
             ))}
           </div>
           <div>
-            <span class={`fa fa-star ${data.rating >= 1 && "checked"}`}></span>
-            <span class={`fa fa-star ${data.rating >= 2 && "checked"}`}></span>
-            <span class={`fa fa-star ${data.rating >= 3 && "checked"}`}></span>
-            <span class={`fa fa-star ${data.rating >= 4 && "checked"}`}></span>
-            <span class={`fa fa-star ${data.rating == 5 && "checked"}`}></span>
+            <span className={`fa fa-star ${data.rating >= 1 && "checked"}`}></span>
+            <span className={`fa fa-star ${data.rating >= 2 && "checked"}`}></span>
+            <span className={`fa fa-star ${data.rating >= 3 && "checked"}`}></span>
+            <span className={`fa fa-star ${data.rating >= 4 && "checked"}`}></span>
+            <span className={`fa fa-star ${data.rating == 5 && "checked"}`}></span>
           </div>
           <div>{data.description}</div>
           <div>

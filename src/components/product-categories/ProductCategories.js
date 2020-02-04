@@ -62,7 +62,7 @@ class ProductCategoriesAccordion extends React.Component {
                       {categories[key].display}{" "}
                       <i
                         id={`collapse-${i}-icon`}
-                        class={`fa fa-chevron-${i === 0 ? "up" : "down"}`}
+                        className={`fa fa-chevron-${i === 0 ? "up" : "down"}`}
                         aria-hidden="true"
                       ></i>
                     </button>
