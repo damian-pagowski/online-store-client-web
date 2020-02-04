@@ -5,7 +5,7 @@ export function handleLogin(user) {
     //   dispatch(showLoading());
 
     api.login(user.email, user.password).then(data => {
-      localStorage.setItem("store-user", data.id);
+      localStorage.setItem("shop-user-profile", JSON.stringify({ ...data }));
       dispatch(logIn({ ...data }));
 
       // dispatch(hideLoading());

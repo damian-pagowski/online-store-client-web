@@ -9,11 +9,18 @@ import Login from "./login/Login";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { _createCart } from "../action-creators/cart-actions-creator";
+import { _getCart } from "../action-creators/cart-actions-creator";
 import PaymentResult from "./payment/PaymentResult";
+import { logIn } from "../actions/users-actions";
+
 class App extends React.Component {
   componentDidMount() {
-    this.props.dispatch(_createCart());
+    this.props.dispatch(_getCart());
+    const userProfile = localStorage.getItem("shop-user-profile");
+    if (userProfile) {
+      const data = JSON.parse(userProfile);
+      this.props.dispatch(logIn({ ...data }));
+    }
   }
   render() {
     return (
