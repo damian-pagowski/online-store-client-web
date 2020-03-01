@@ -28,7 +28,7 @@ function ProductListItem(props) {
             <span className={`fa fa-star ${data.rating >= 2 && "checked"}`}></span>
             <span className={`fa fa-star ${data.rating >= 3 && "checked"}`}></span>
             <span className={`fa fa-star ${data.rating >= 4 && "checked"}`}></span>
-            <span className={`fa fa-star ${data.rating == 5 && "checked"}`}></span>
+            <span className={`fa fa-star ${data.rating === 5 && "checked"}`}></span>
           </div>
           <div>{data.description}</div>
           <div>
