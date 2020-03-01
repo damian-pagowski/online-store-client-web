@@ -1,12 +1,9 @@
 exports.config = {
-    capabilities: {
-      browserName: "chrome"
-    },
-    directConnect: true,
-    baseUrl: "http://localhost:3000",
-    framework: "jasmine",
-    specs: ["./tests/e2e/specs/contact-list-test.js"],
-  
-    // tests/e2e/specs/contact-list-test.js
-  };
-  
+  capabilities: {
+    browserName: "chrome"
+  },
+  directConnect: true,
+  baseUrl: "http://localhost:3000",
+  framework: "jasmine",
+  specs: ["./e2e/src/spec/app.e2e-spec.js"]
+};
