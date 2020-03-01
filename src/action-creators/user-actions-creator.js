@@ -14,6 +14,18 @@ export function handleLogin(user) {
   };
 }
 
+export function handleRegister(user) {
+  return dispatch => {
+    dispatch(showLoading());
+
+    api.register(user.email, user.password).then(data => {
+      localStorage.setItem("shop-user-profile", JSON.stringify({ ...data }));
+      dispatch(logIn({ ...data }));
+    }).catch(error => console.log("Error while logging in: " + error));
+    dispatch(hideLoading());
+  };
+}
+
 export function handleLogout() {
   return dispatch => {
     dispatch(showLoading());

@@ -6,6 +6,7 @@ import ProductListWrapper from "./product-list-wrapper/ProductListWrapper";
 import Footer from "./footer/Footer";
 import Cart from "./cart/Cart";
 import Login from "./login/Login";
+import Register from "./register/Register";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import Loader from "./loader/Loader";
@@ -36,6 +37,11 @@ class App extends React.Component {
             render={() => <LoginContainer loadingBar={this.props.loadingBar} />}
           />
           <Route
+            exact
+            path="/register"
+            render={() => <LoginContainer loadingBar={this.props.loadingBar} />}
+          />
+          <Route
             render={() => (
               <DefaultContainer loadingBar={this.props.loadingBar} />
             )}
@@ -51,14 +57,14 @@ const dataPaymentSuccess = {
   message: "Your item will be sent to you within 48 hours.",
   icon: "fa-check-circle",
   backUrl: "/",
-  backText: "Back to Shop",
+  backText: "Back to Shop"
 };
 const dataPaymentFailed = {
   title: "Payment Failed!",
   message: "Please try again later",
   backUrl: "/cart",
   icon: "fa-warning",
-  backText: "Back to Cart",
+  backText: "Back to Cart"
 };
 
 const DefaultContainer = props =>
@@ -97,13 +103,14 @@ const LoginContainer = props =>
     <div className="App">
       <div className="container">
         <Route path="/login" component={Login} />
+        <Route path="/register" component={Register} />
       </div>
     </div>
   );
 
 function mapStateToProps({ loadingBar }) {
   return {
-    loadingBar,
+    loadingBar
   };
 }
 

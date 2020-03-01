@@ -15,6 +15,19 @@ const api = {
       body: JSON.stringify({ email, password }),
     }).then(response => response.json());
   },
+  register(email, password) {
+    let formData = new FormData();
+    formData.append("email", email);
+    formData.append("password", password);
+
+    return fetch(`${BASE_URL}/users/register`, {
+      method: "POST",
+      headers: headerJson,
+      credentials: 'same-origin',
+
+      body: JSON.stringify({ email, password }),
+    }).then(response => response.json());
+  },
   logout() {
     return fetch(`${BASE_URL}/users/logout`, {
       method: "GET",

@@ -1,11 +1,11 @@
 import React from "react";
 import logo from "../../assets/images/logo.png";
-import "./Login.css";
+import "./Register.css";
 import { connect } from "react-redux";
-import { handleLogin } from "../../action-creators/user-actions-creator";
+import { handleRegister } from "../../action-creators/user-actions-creator";
 import { Redirect, Link } from "react-router-dom";
 
-class Login extends React.Component {
+class Register extends React.Component {
   state = {
     email: "",
     password: ""
@@ -15,7 +15,7 @@ class Login extends React.Component {
     e.preventDefault();
     console.log("login");
     // const {email, password} = this.state
-    this.props.dispatch(handleLogin(this.state));
+    this.props.dispatch(handleRegister(this.state));
     this.setState({
       email: "",
       password: ""
@@ -67,14 +67,14 @@ class Login extends React.Component {
               </div>
 
               <button className="btn btn-success" onClick={this.handleSubmit}>
-                Login
+                Register
               </button>
               <div class="w-100">
                 <p class="text-right p-0">
-                  Don't have an account?
-                  <Link to="/register" className="text-right w-100">
+                  Already have an account?
+                  <Link to="/login" className="text-right w-100">
                     {" "}
-                    register
+                    login
                   </Link>
                 </p>
               </div>
@@ -92,4 +92,4 @@ function mapStateToProps({ user }) {
   };
 }
 
-export default connect(mapStateToProps)(Login);
+export default connect(mapStateToProps)(Register);
