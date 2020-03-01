@@ -1,7 +1,7 @@
 const BASE_URL = process.env.REACT_APP_API_URL;
 
 const headers = {
-  "Content-Type": "application/json",
+  "Content-Type": "application/json"
 };
 const api = {
   details() {
@@ -9,8 +9,10 @@ const api = {
       method: "GET",
       headers: headers,
       credentials: "include",
-      mode: "cors", // no-cors, *cors, same-origin
-    }).then(response => response.json());
+      mode: "cors" // no-cors, *cors, same-origin
+    })
+      .then(response => response.json())
+      .catch(error => console.log(error));
   },
   add(item) {
     // productId, quantity
@@ -20,8 +22,10 @@ const api = {
       body: JSON.stringify(item),
       headers: headers,
       credentials: "include",
-      mode: "cors", // no-cors, *cors, same-origin
-    }).then(response => response.json());
+      mode: "cors" // no-cors, *cors, same-origin
+    })
+      .then(response => response.json())
+      .catch(error => console.log(error));
   },
   charge() {
     // productId, quantity
@@ -30,7 +34,7 @@ const api = {
       method: "GET",
       headers: headers,
       credentials: "include",
-      mode: "cors", // no-cors, *cors, same-origin
+      mode: "cors" // no-cors, *cors, same-origin
     })
       .then(response => response.json())
       .catch(error => console.log(error));
@@ -38,16 +42,15 @@ const api = {
   update(item) {
     // productId, quantity
     let url = `${BASE_URL}/cart/edit`;
-    console.log("> edit > url : " + url);
-    console.log("> edit > body : " + JSON.stringify(item));
-
     return fetch(url, {
       method: "POST",
       body: JSON.stringify(item),
       headers: headers,
       credentials: "include",
-      mode: "cors", // no-cors, *cors, same-origin
-    }).then(response => response.json());
+      mode: "cors" // no-cors, *cors, same-origin
+    })
+      .then(response => response.json())
+      .catch(error => console.log(error));
   },
   delete(item) {
     let url = `${BASE_URL}/cart/remove`;
@@ -56,8 +59,10 @@ const api = {
       body: JSON.stringify(item),
       headers: headers,
       credentials: "include",
-      mode: "cors",
-    }).then(response => response.json());
-  },
+      mode: "cors"
+    })
+      .then(response => response.json())
+      .catch(error => console.log(error));
+  }
 };
 export default api;

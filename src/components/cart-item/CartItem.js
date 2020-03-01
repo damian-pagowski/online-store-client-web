@@ -6,6 +6,7 @@ import {
   _removeItem
 } from "../../action-creators/cart-actions-creator";
 import { connect } from "react-redux";
+const BASE_URL = process.env.REACT_APP_API_URL;
 
 function CartItem(props) {
   const data = props.data;
@@ -28,7 +29,7 @@ function CartItem(props) {
 
   return (
     <li className="media cart-item">
-      <img src={data.image} className="mr-3 cart-item-img" alt={data.name} />{" "}
+      <img src={BASE_URL+data.image} className="mr-3 cart-item-img" alt={data.name} />{" "}
       <div className="media-body ">
         <div className="product-info-wrapper mx-4">
           <h5 className="mt-1 mb-2"> {data.name} </h5>{" "}
