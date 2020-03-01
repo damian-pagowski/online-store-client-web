@@ -32,7 +32,7 @@ function CartItem(props) {
       <img src={BASE_URL+data.image} className="mr-3 cart-item-img" alt={data.name} />{" "}
       <div className="media-body ">
         <div className="product-info-wrapper mx-4">
-          <h5 className="mt-1 mb-2"> {data.name} </h5>{" "}
+          <h5 className="mt-1 mb-2 cart-item-description"> {data.name} </h5>{" "}
           <div> {data.description} </div>{" "}
           <div>
             <div className="input-group my-3">
@@ -42,6 +42,7 @@ function CartItem(props) {
                 </label>{" "}
               </div>{" "}
               <Select
+              className="cart-item-quantity-select"
                 id="quantity-select"
                 value={{
                   value: data.quantity,
@@ -52,7 +53,7 @@ function CartItem(props) {
               />{" "}
               <div className="input-group-append">
                 <button
-                  className="btn btn-outline-secondary"
+                  className="btn btn-outline-secondary cart-item-remove"
                   type="button"
                   onClick={handleRemove}
                 >
@@ -60,11 +61,11 @@ function CartItem(props) {
                 </button>{" "}
               </div>{" "}
             </div>{" "}
-            <div className="badge badge-pill badge-light">
+            <div className="badge badge-pill badge-light cart-item-unit-price">
               {" "}
               {`Unit Price ${currency} ${data.price}`}{" "}
             </div>{" "}
-            <div className="badge badge-pill badge-light">
+            <div className="badge badge-pill badge-light cart-item-value">
               {" "}
               {`Subtotal ${currency} ${data.subTotal}`}{" "}
             </div>{" "}

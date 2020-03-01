@@ -9,6 +9,7 @@ function CartSummary(props) {
   const handlePayment = () => {
     console.log("Public key: " + PK_STRIPE);
     api.charge().then(r => {
+      console.log("/charge response: " + JSON.stringify(r))
       const stripe = window.Stripe(PK_STRIPE);
       stripe
         .redirectToCheckout({
@@ -27,10 +28,10 @@ function CartSummary(props) {
           Subtotal ({cart.itemsCount} items)
         </p>
         <h1 className="text-center mb-4">
-          <span className="badge badge-pill badge-light">{`${cart.currency} ${cart.total}`}</span>
+          <span className="badge badge-pill badge-light" id="cart-total">{`${cart.currency} ${cart.total}`}</span>
         </h1>
         {cart.itemsCount > 0 && user.email && (
-          <button className="btn btn-success btn-block" onClick={handlePayment}>
+          <button className="btn btn-success btn-block" onClick={handlePayment} id="pay-button">
             Pay
           </button>
         )}

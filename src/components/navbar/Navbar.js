@@ -15,7 +15,7 @@ class Navbar extends React.Component {
     const itemsCount = this.props.cart.itemsCount || 0;
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <Link className="navbar-brand" to="/">
+        <Link className="navbar-brand" to="/" id="home-link">
           <img src={logo} alt="" id="logo" />
         </Link>
         <button
@@ -62,19 +62,19 @@ class Navbar extends React.Component {
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
               {user.email ? (
-                <a className="nav-link" onClick={this.handleLogout}>
+                <Link id="logout-link" className="nav-link" onClick={this.handleLogout}>
                   <i className="fa fa-user icon-nav-right"></i>Logout
-                </a>
+                </Link>
               ) : (
-                <Link className="nav-link" to="/login">
+                <Link className="nav-link" to="/login" id="login-link">
                   <i className="fa fa-user icon-nav-right"></i>Login
                 </Link>
               )}
             </li>
             <li className="nav-item mr-4">
             
-              <Link className="nav-link" to="/cart">
-                <span className="badge badge-pill badge-success">
+              <Link className="nav-link" to="/cart" id="cart-link">
+                <span className="badge badge-pill badge-success" id="cart-size">
                   {itemsCount}
                 </span>
               <i className="fa fa-shopping-cart icon-nav-right"></i>
