@@ -2,6 +2,7 @@ import React from "react";
 import "./ProductListItem.css";
 import { _addToCart } from "../../action-creators/cart-actions-creator";
 import { connect } from "react-redux";
+const BASE_URL = process.env.REACT_APP_API_URL;
 
 function ProductListItem(props) {
   const data = props.data;
@@ -11,7 +12,7 @@ function ProductListItem(props) {
   };
   return (
     <li className="media product-list-item">
-      <img src={data.image} className="mr-3 product-img" alt="..." />
+      <img src={BASE_URL+data.image} className="mr-3 product-img" alt="..." />
       <div className="media-body ">
         <div className="product-info-wrapper mx-4">
           <div className="mt-1 mb-2 ">
