@@ -17,8 +17,8 @@ class Cart extends React.Component {
           <div className="item2">
             <ul>
               {cartData && cartData.items && cartData.items.length > 0 ? (
-                cartData.items.map(item => (
-                  <CartItem data={item} currency={cartData.currency} />
+                cartData.items.map((item, idx) => (
+                  <CartItem data={item} currency={cartData.currency} key={idx}/>
                 ))
               ) : (
                 <div className="alert alert-danger mt-5" role="alert">

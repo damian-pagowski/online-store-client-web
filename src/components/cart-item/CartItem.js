@@ -37,7 +37,7 @@ function CartItem(props) {
           <div>
             <div className="input-group my-3">
               <div className="input-group-prepend">
-                <label className="input-group-text" for="quantity-select">
+                <label className="input-group-text" htmlFor="quantity-select">
                   Quantity{" "}
                 </label>{" "}
               </div>{" "}
