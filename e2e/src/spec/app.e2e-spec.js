@@ -1,9 +1,9 @@
 const ContactList = require("../page_object/ContactList.po");
 
-describe("Contact list demo app", function() {
+describe("Online store end-to-end testss", function() {
   const contactList = new ContactList();
 
-  describe("adding a new contact", () => {
+  describe("adding a new customer", () => {
     beforeAll(() => {
       contactList.go();
     });
