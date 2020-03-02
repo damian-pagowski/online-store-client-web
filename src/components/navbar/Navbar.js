@@ -62,7 +62,7 @@ class Navbar extends React.Component {
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
               {user.email ? (
-                <Link id="logout-link" className="nav-link" onClick={this.handleLogout}>
+                <Link id="logout-link" className="nav-link" onClick={this.handleLogout} to="/">
                   <i className="fa fa-user icon-nav-right"></i>Logout
                 </Link>
               ) : (
