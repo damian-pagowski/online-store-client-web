@@ -1,5 +1,6 @@
 class Navbar {
   loginLink = element(by.id("login-link"));
+  logoutLink = element(by.id("logout-link"));
   cartLink = element(by.id("cart-link"));
   cartSize = element(by.id("cart-size"));
   homeLink = element(by.id("home-link"));

@@ -1,4 +1,6 @@
 exports.config = {
+  restartBrowserBetweenTests: true,
+
   capabilities: {
     browserName: "chrome",
     chromeOptions: {

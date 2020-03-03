@@ -5,52 +5,65 @@ const RegisterPage = require("../po/register.po");
 const EC = browser.ExpectedConditions;
 const WAIT_TIME = 2000;
 
-describe("Online store end-to-end testss", function() {
-  const mainPage = new ProductList();
-  const navbar = new Navbar();
-  const loginPage = new LoginPage();
-  const registerPage = new RegisterPage();
+describe("Online store end-to-end tests", function() {
   const testData = {};
 
+  let mainPage;
+  let navbar;
+  let loginPage;
+  let registerPage;
+
   beforeAll(() => {
-    mainPage.go();
     testData.email = new Date().getTime() + "@test.com";
     testData.password = "test";
   });
 
-  describe("User Registration", () => {
-    beforeAll(() => {
-      browser.ignoreSynchronization = true;
-    });
+  afterAll(() => {
+    browser.restart();
+  });
 
-    it("should click login link in navbar", () => {
-      waitForElementToBeClickable(navbar.loginLink);
-      navbar.clickLogin();
-      waitForUrlToContain("/login")
-      expect(currentUrl()).toEqual(`${mainPage.baseUrl}/login`);
-    });
+  beforeEach(() => {
+    browser.ignoreSynchronization = true;
+    mainPage = new ProductList();
+    navbar = new Navbar();
+    loginPage = new LoginPage();
+    registerPage = new RegisterPage();
+    mainPage.go();
+  });
 
-    it("should click register link", () => {
-      // waitForElementToBeClickable(loginPage.registerLink);
-      loginPage.clickRegister();
-      waitForUrlToContain("/register")
-      expect(currentUrl()).toEqual(`${mainPage.baseUrl}/register`);
-    });
+  it("should register user with valid credentials", () => {
+    waitForElementToBeVisible(mainPage.listContainer);
+    navbar.clickLogin();
+    waitForElementToBeVisible(loginPage.loginLogo);
+    expect(currentUrl()).toEqual(`${mainPage.baseUrl}/login`);
 
-    it("should write an email", () => {
-      registerPage.setEmail(testData.email);
-      expect(registerPage.getEmail()).toEqual(testData.email);
-    });
+    loginPage.clickRegister();
+    waitForElementToBeVisible(registerPage.loginLink);
+    expect(currentUrl()).toEqual(`${mainPage.baseUrl}/register`);
 
-    it("should write a password", () => {
-      registerPage.setPassword(testData.password);
-      expect(registerPage.getPassword()).toEqual(testData.password);
-    });
+    registerPage.setEmail(testData.email);
+    expect(registerPage.getEmail()).toEqual(testData.email);
 
-    it("should click the register button", () => {
-      registerPage.clickRegister();
-      expect(currentUrl()).toEqual(mainPage.baseUrl);
-    });
+    registerPage.setPassword(testData.password);
+    expect(registerPage.getPassword()).toEqual(testData.password);
+
+    registerPage.clickRegister();
+    waitForElementToBeVisible(navbar.logoutLink);
+    expect(currentUrl()).toEqual(mainPage.baseUrl + "/");
+  });
+
+  it("should log it using valid credentials", () => {
+    waitForElementToBeVisible(mainPage.listContainer);
+    navbar.clickLogin();
+    waitForElementToBeVisible(loginPage.loginLogo);
+    expect(currentUrl()).toEqual(`${mainPage.baseUrl}/login`);
+    registerPage.setEmail(testData.email);
+    expect(registerPage.getEmail()).toEqual(testData.email);
+    registerPage.setPassword(testData.password);
+    expect(registerPage.getPassword()).toEqual(testData.password);
+    registerPage.clickRegister();
+    waitForElementToBeVisible(navbar.logoutLink);
+    expect(currentUrl()).toEqual(mainPage.baseUrl + "/");
   });
 });
 
