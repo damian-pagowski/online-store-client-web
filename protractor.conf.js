@@ -1,9 +1,13 @@
 exports.config = {
   capabilities: {
-    browserName: "chrome"
+    browserName: "chrome",
+    chromeOptions: {
+      args: ["--window-size=1366,768"]
+    }
   },
+
   directConnect: true,
-  baseUrl: "http://localhost:3000",
+  baseUrl: "https://damian-estore-client.herokuapp.com",
   framework: "jasmine",
-  specs: ["./e2e/src/spec/app.e2e-spec.js"]
+  specs: ["e2e/src/spec/app.e2e-spec.js"]
 };

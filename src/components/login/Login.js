@@ -66,13 +66,13 @@ class Login extends React.Component {
                 />
               </div>
 
-              <button className="btn btn-success" onClick={this.handleSubmit}>
+              <button className="btn btn-success" onClick={this.handleSubmit} id="login-btn">
                 Login
               </button>
               <div class="w-100">
                 <p class="text-right p-0">
                   Don't have an account?
-                  <Link to="/register" className="text-right w-100">
+                  <Link to="/register" className="text-right w-100" id="link-to-register">
                     {" "}
                     register
                   </Link>

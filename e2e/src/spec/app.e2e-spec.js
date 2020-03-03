@@ -1,41 +1,83 @@
-const ContactList = require("../page_object/ContactList.po");
+const ProductList = require("../po/product-list.po");
+const Navbar = require("../po/navbar.po");
+const LoginPage = require("../po/login.po");
+const RegisterPage = require("../po/register.po");
+const EC = browser.ExpectedConditions;
+const WAIT_TIME = 2000;
 
 describe("Online store end-to-end testss", function() {
-  const contactList = new ContactList();
+  const mainPage = new ProductList();
+  const navbar = new Navbar();
+  const loginPage = new LoginPage();
+  const registerPage = new RegisterPage();
+  const testData = {};
 
-  describe("adding a new customer", () => {
+  beforeAll(() => {
+    mainPage.go();
+    testData.email = new Date().getTime() + "@test.com";
+    testData.password = "test";
+  });
+
+  describe("User Registration", () => {
     beforeAll(() => {
-      contactList.go();
+      browser.ignoreSynchronization = true;
     });
 
-    it("should press add contact button", () => {
-      contactList.addContactBtn.click();
-      expect(currentUrl()).toEqual(`${contactList.baseUrl}/#/add`);
+    it("should click login link in navbar", () => {
+      waitForElementToBeClickable(navbar.loginLink);
+      navbar.clickLogin();
+      waitForUrlToContain("/login")
+      expect(currentUrl()).toEqual(`${mainPage.baseUrl}/login`);
     });
 
-    it("should write a name", () => {
-      contactList.setName("Damian");
-      expect(contactList.getName()).toEqual("Damian");
+    it("should click register link", () => {
+      // waitForElementToBeClickable(loginPage.registerLink);
+      loginPage.clickRegister();
+      waitForUrlToContain("/register")
+      expect(currentUrl()).toEqual(`${mainPage.baseUrl}/register`);
     });
 
     it("should write an email", () => {
-      contactList.setEmail("damian@damian.me");
-      expect(contactList.getEmail()).toEqual("damian@damian.me");
+      registerPage.setEmail(testData.email);
+      expect(registerPage.getEmail()).toEqual(testData.email);
     });
 
-    it("should write a phone number", () => {
-      contactList.setPhone("1234567890");
-      expect(contactList.getPhone()).toEqual("1234567890");
+    it("should write a password", () => {
+      registerPage.setPassword(testData.password);
+      expect(registerPage.getPassword()).toEqual(testData.password);
     });
 
-    it("should click the create button", () => {
-      contactList.clickCreateButton();
-      expect(currentUrl()).toEqual(`${contactList.baseUrl}/#/`);
+    it("should click the register button", () => {
+      registerPage.clickRegister();
+      expect(currentUrl()).toEqual(mainPage.baseUrl);
     });
   });
 });
 
+function waitForElementToBeClickable(element) {
+  browser.wait(
+    EC.elementToBeClickable(element),
+    WAIT_TIME,
+    "Wait for element to be clickable"
+  );
+}
+
+function waitForElementToBeVisible(element) {
+  browser.wait(
+    EC.visibilityOf(element),
+    WAIT_TIME,
+    "Wait for element to be vivsible"
+  );
+}
+
+function waitForUrlToContain(text) {
+  browser.wait(
+    EC.urlContains(text),
+    WAIT_TIME,
+    `Wait for url to contain: ${text}`
+  );
+}
+
 function currentUrl() {
   return browser.getCurrentUrl();
 }
-
