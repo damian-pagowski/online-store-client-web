@@ -10,12 +10,14 @@ class ProductCategoriesAccordion extends React.Component {
   }
 
   showSubcategory = (category, subcategory) => {
-    this.props.dispatch(_getProducts(category, subcategory));
+    console.log(
+      "product filter called - accordion: " + category + " " + subcategory
+    );
+    this.props.filterHandler(category, subcategory);
   };
 
-  showAllProducts = () => {
-    this.props.dispatch(_getProducts());
-  };
+  showAllProducts = () =>  this.props.resetResults();
+
 
   toggleIcon = elementId => {
     const icon = document.getElementById(elementId);
@@ -102,7 +104,7 @@ class ProductCategoriesAccordion extends React.Component {
 
 function mapStateToProps({ categories }) {
   return {
-    categories,
+    categories
   };
 }
 

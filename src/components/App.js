@@ -14,8 +14,59 @@ import Loader from "./loader/Loader";
 import { _getCart } from "../action-creators/cart-actions-creator";
 import PaymentResult from "./payment/PaymentResult";
 import { logIn } from "../actions/users-actions";
+import { _getProducts } from "../action-creators/products-actions-creator";
 
 class App extends React.Component {
+  state = {
+    category: null,
+    subcategory: null,
+    search: null
+  };
+
+  resetResults = () => {
+    Promise.all([
+      this.setState({
+        ...this.state,
+        ...{
+          category: null,
+          subcategory: null,
+          search: null
+        }
+      })
+    ]).then(() => {
+      this.listProductHandler();
+    });
+  };
+
+  listProductHandler = () => {
+    console.log(" listProductHandler called - app");
+    console.log("state: " + JSON.stringify(this.state));
+    const { category, subcategory, search } = this.state;
+    this.props.dispatch(_getProducts(category, subcategory, search));
+  };
+
+  searchHandler = data => {
+    const { search } = data;
+    console.log("Search : " + search);
+    Promise.all([this.setState({ ...this.state, search })]).then(() => {
+      console.log(">> searchHandler called - app");
+      console.log("state: " + JSON.stringify(this.state));
+      this.listProductHandler();
+      console.log("state: " + JSON.stringify(this.state));
+    });
+  };
+
+  filterHandler = (category, subcategory) => {
+    Promise.all([this.setState({ ...this.state, category, subcategory })]).then(
+      () => {
+        console.log(">> filterHandler called - app");
+        console.log("state: " + JSON.stringify(this.state));
+        this.listProductHandler();
+        console.log("state: " + JSON.stringify(this.state));
+      }
+    );
+  };
+
   componentDidMount() {
     this.props.dispatch(_getCart());
     const userProfile = localStorage.getItem("shop-user-profile");
@@ -43,7 +94,13 @@ class App extends React.Component {
           />
           <Route
             render={() => (
-              <DefaultContainer loadingBar={this.props.loadingBar} />
+              <DefaultContainer
+                loadingBar={this.props.loadingBar}
+                searchHandler={this.searchHandler}
+                filterHandler={this.filterHandler}
+                listProductHandler={this.listProductHandler}
+                resetResults={this.resetResults}
+              />
             )}
           />
         </Switch>
@@ -72,14 +129,18 @@ const DefaultContainer = props =>
     <Loader />
   ) : (
     <div>
-      <Navbar />
+      <Navbar searchHandler={props.searchHandler} />
       <Route
         exact
         path="/"
         render={() => (
           <div>
             <Carousel />
-            <ProductListWrapper />
+            <ProductListWrapper
+              listProductHandler={props.listProductHandler}
+              filterHandler={props.filterHandler}
+              resetResults={props.resetResults}
+            />
           </div>
         )}
       />

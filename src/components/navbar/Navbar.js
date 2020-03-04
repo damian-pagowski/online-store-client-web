@@ -6,9 +6,23 @@ import { connect } from "react-redux";
 import { handleLogout } from "../../action-creators/user-actions-creator";
 
 class Navbar extends React.Component {
+  state = { search: "" };
   handleLogout = () => {
     console.log("logout");
     this.props.dispatch(handleLogout());
+  };
+
+  searchChangeHandler = event => {
+    console.log("search updating...");
+    const value = { search: event.target.value };
+    this.setState({ ...this.state, ...value });
+  };
+
+  searchSubmitHandler = () => {
+    console.log("search submited...");
+    console.log(JSON.stringify(this.state));
+
+    this.props.searchHandler(this.state);
   };
   render = () => {
     const user = this.props.user;
@@ -49,11 +63,14 @@ class Navbar extends React.Component {
               <input
                 className="form-control mr-sm-2"
                 type="search"
-                placeholder="Search"
+                name="search"
+                value={this.state.search}
+                onChange={this.searchChangeHandler}
+                placeholder="Search..."
               />
               <button
                 className="btn btn-outline-success my-2 my-sm-0"
-                type="submit"
+                onClick={this.searchSubmitHandler}
               >
                 Search
               </button>
@@ -62,7 +79,12 @@ class Navbar extends React.Component {
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
               {user.email ? (
-                <Link id="logout-link" className="nav-link" onClick={this.handleLogout} to="/">
+                <Link
+                  id="logout-link"
+                  className="nav-link"
+                  onClick={this.handleLogout}
+                  to="/"
+                >
                   <i className="fa fa-user icon-nav-right"></i>Logout
                 </Link>
               ) : (
@@ -72,12 +94,11 @@ class Navbar extends React.Component {
               )}
             </li>
             <li className="nav-item mr-4">
-            
               <Link className="nav-link" to="/cart" id="cart-link">
                 <span className="badge badge-pill badge-success" id="cart-size">
                   {itemsCount}
                 </span>
-              <i className="fa fa-shopping-cart icon-nav-right"></i>
+                <i className="fa fa-shopping-cart icon-nav-right"></i>
                 Cart
               </Link>
             </li>
@@ -91,7 +112,7 @@ class Navbar extends React.Component {
 function mapStateToProps({ user, cart }) {
   return {
     cart,
-    user,
+    user
   };
 }
 

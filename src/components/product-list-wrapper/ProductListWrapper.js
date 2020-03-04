@@ -3,13 +3,12 @@ import ProductListItem from "../product-list-item/ProductListItem";
 import ProductCategoriesAccordion from "../product-categories/ProductCategories";
 import "./ProductListWrapper.css";
 import { connect } from "react-redux";
-import { _getProducts } from "../../action-creators/products-actions-creator";
 import { _getCart } from "../../action-creators/cart-actions-creator";
 
 class ProductListWrapper extends React.Component {
   componentDidMount = () => {
     this.props.dispatch(_getCart());
-    this.props.dispatch(_getProducts());
+    this.props.listProductHandler();
   };
   render() {
     const products = Object.values(this.props.products);
@@ -20,7 +19,11 @@ class ProductListWrapper extends React.Component {
       <div className="product-list-container">
         <div className="product-list-grid">
           <div className="item1">
-            <ProductCategoriesAccordion />
+            <ProductCategoriesAccordion
+              listProductHandler={this.props.listProductHandler}
+              filterHandler={this.props.filterHandler}
+              resetResults={this.props.resetResults}
+            />
           </div>
           <div className="item2">
             <ul className="list-unstyled">
@@ -35,9 +38,11 @@ class ProductListWrapper extends React.Component {
               ) : (
                 <div className="alert alert-danger" role="alert">
                   Sorry, there are no products matching your criteria
-                  <a href="#" className="alert-link">
-                    {" "}
-                    Show All
+                  <a
+                    onClick={this.props.resetResults}
+                    className="alert-link"
+                  >
+                   {" "} Show All
                   </a>
                 </div>
               )}
@@ -53,7 +58,7 @@ function mapStateToProps({ products, cart }) {
   const currency = cart.currency;
   return {
     products,
-    currency,
+    currency
   };
 }
 
