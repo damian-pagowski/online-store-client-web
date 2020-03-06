@@ -2,6 +2,7 @@ const ProductList = require("../po/product-list.po");
 const Navbar = require("../po/navbar.po");
 const LoginPage = require("../po/login.po");
 const RegisterPage = require("../po/register.po");
+const ProductCategories = require("../po/product-categories.po");
 const EC = browser.ExpectedConditions;
 const WAIT_TIME = 2000;
 
@@ -12,6 +13,7 @@ describe("Online store end-to-end tests", function() {
   let navbar;
   let loginPage;
   let registerPage;
+  let categories;
 
   beforeAll(() => {
     testData.email = new Date().getTime() + "@test.com";
@@ -28,43 +30,74 @@ describe("Online store end-to-end tests", function() {
     navbar = new Navbar();
     loginPage = new LoginPage();
     registerPage = new RegisterPage();
+    categories = new ProductCategories();
     mainPage.go();
   });
 
-  it("should register user with valid credentials", () => {
+  // it("should register user with valid credentials", () => {
+  //   waitForElementToBeVisible(mainPage.listContainer);
+  //   navbar.clickLogin();
+  //   waitForElementToBeVisible(loginPage.loginLogo);
+  //   expect(currentUrl()).toEqual(`${mainPage.baseUrl}/login`);
+
+  //   loginPage.clickRegister();
+  //   waitForElementToBeVisible(registerPage.loginLink);
+  //   expect(currentUrl()).toEqual(`${mainPage.baseUrl}/register`);
+
+  //   registerPage.setEmail(testData.email);
+  //   expect(registerPage.getEmail()).toEqual(testData.email);
+
+  //   registerPage.setPassword(testData.password);
+  //   expect(registerPage.getPassword()).toEqual(testData.password);
+
+  //   registerPage.clickRegister();
+  //   waitForElementToBeVisible(navbar.logoutLink);
+  //   expect(currentUrl()).toEqual(mainPage.baseUrl + "/");
+  // });
+
+  // it("should log it using valid credentials", () => {
+  //   waitForElementToBeVisible(mainPage.listContainer);
+  //   navbar.clickLogin();
+  //   waitForElementToBeVisible(loginPage.loginLogo);
+  //   expect(currentUrl()).toEqual(`${mainPage.baseUrl}/login`);
+  //   registerPage.setEmail(testData.email);
+  //   expect(registerPage.getEmail()).toEqual(testData.email);
+  //   registerPage.setPassword(testData.password);
+  //   expect(registerPage.getPassword()).toEqual(testData.password);
+  //   registerPage.clickRegister();
+  //   waitForElementToBeVisible(navbar.logoutLink);
+  //   expect(currentUrl()).toEqual(mainPage.baseUrl + "/");
+  // });
+
+  it("Searching products by three criteria", () => {
     waitForElementToBeVisible(mainPage.listContainer);
-    navbar.clickLogin();
-    waitForElementToBeVisible(loginPage.loginLogo);
-    expect(currentUrl()).toEqual(`${mainPage.baseUrl}/login`);
+    waitForElementToBeClickable(categories.computers);
+    categories.computers.click();
+    waitForElementToBeClickable(categories.laptops);
+    categories.laptops.click();
+    waitForProductListToLoad(mainPage)
+    mainPage.products.count( count => expect(count).toEqual(2));
 
-    loginPage.clickRegister();
-    waitForElementToBeVisible(registerPage.loginLink);
-    expect(currentUrl()).toEqual(`${mainPage.baseUrl}/register`);
 
-    registerPage.setEmail(testData.email);
-    expect(registerPage.getEmail()).toEqual(testData.email);
+    // .getText(text => expect(text).toBe('Som Tam Air'))
+    expect(element(by.css('.product-name')).getText()).toEqual('Y-Book Premium Pro');
 
-    registerPage.setPassword(testData.password);
-    expect(registerPage.getPassword()).toEqual(testData.password);
 
-    registerPage.clickRegister();
-    waitForElementToBeVisible(navbar.logoutLink);
-    expect(currentUrl()).toEqual(mainPage.baseUrl + "/");
+    // expect(currentUrl()).toEqual(`${mainPage.baseUrl}/login`);
+    // registerPage.setEmail(testData.email);
+    // expect(registerPage.getEmail()).toEqual(testData.email);
+    // registerPage.setPassword(testData.password);
+    // expect(registerPage.getPassword()).toEqual(testData.password);
+    // registerPage.clickRegister();
+    // waitForElementToBeVisible(navbar.logoutLink);
+    // expect(currentUrl()).toEqual(mainPage.baseUrl + "/");
   });
 
-  it("should log it using valid credentials", () => {
-    waitForElementToBeVisible(mainPage.listContainer);
-    navbar.clickLogin();
-    waitForElementToBeVisible(loginPage.loginLogo);
-    expect(currentUrl()).toEqual(`${mainPage.baseUrl}/login`);
-    registerPage.setEmail(testData.email);
-    expect(registerPage.getEmail()).toEqual(testData.email);
-    registerPage.setPassword(testData.password);
-    expect(registerPage.getPassword()).toEqual(testData.password);
-    registerPage.clickRegister();
-    waitForElementToBeVisible(navbar.logoutLink);
-    expect(currentUrl()).toEqual(mainPage.baseUrl + "/");
-  });
+  // * Searching products by three criteria
+  //  * Adding products to the cart
+  //  * Removing products from the cart
+  //  * Checkout process
+  //  * If possible, implement a sign-up / registration test
 });
 
 function waitForElementToBeClickable(element) {
@@ -79,7 +112,7 @@ function waitForElementToBeVisible(element) {
   browser.wait(
     EC.visibilityOf(element),
     WAIT_TIME,
-    "Wait for element to be vivsible"
+    "Wait for element to be visible"
   );
 }
 
@@ -90,6 +123,20 @@ function waitForUrlToContain(text) {
     `Wait for url to contain: ${text}`
   );
 }
+
+function waitForProductListToLoad(productListPage){
+  browser.wait(presenceOfAll(productListPage.products, WAIT_TIME));
+}
+
+function presenceOfAll(elementArrayFinder) {
+  return function () {
+      return elementArrayFinder.count(function (count) {
+          return count > 0;
+      });
+  };
+}
+
+
 
 function currentUrl() {
   return browser.getCurrentUrl();

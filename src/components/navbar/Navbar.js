@@ -64,6 +64,7 @@ class Navbar extends React.Component {
                 className="form-control mr-sm-2"
                 type="search"
                 name="search"
+                id="product-search-input"
                 value={this.state.search}
                 onChange={this.searchChangeHandler}
                 placeholder="Search..."
@@ -71,6 +72,7 @@ class Navbar extends React.Component {
               <button
                 className="btn btn-outline-success my-2 my-sm-0"
                 onClick={this.searchSubmitHandler}
+                id="product-search-button"
               >
                 Search
               </button>

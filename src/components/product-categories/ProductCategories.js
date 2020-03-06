@@ -16,8 +16,7 @@ class ProductCategoriesAccordion extends React.Component {
     this.props.filterHandler(category, subcategory);
   };
 
-  showAllProducts = () =>  this.props.resetResults();
-
+  showAllProducts = () => this.props.resetResults();
 
   toggleIcon = elementId => {
     const icon = document.getElementById(elementId);
@@ -58,6 +57,7 @@ class ProductCategoriesAccordion extends React.Component {
                       data-toggle="collapse"
                       data-target={`#collapse-${i}`}
                       aria-expanded="false"
+                      id={key}
                       aria-controls={`collapse-${i}`}
                       onClick={() => this.toggleIcon(`collapse-${i}-icon`)}
                     >
@@ -85,6 +85,7 @@ class ProductCategoriesAccordion extends React.Component {
                             className="list-group-item"
                             subcategory={sub}
                             key={i}
+                            id={key}
                             onClick={() => this.showSubcategory(key, sub)}
                           >
                             {categories[key].subcategories[sub]}
