@@ -4,9 +4,9 @@
   "private": true,
   "author": "Damian Pagowski - d.pagowski@gmail.com",
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
+    "@testing-library/jest-dom": "^5.1.1",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^10.0.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-scripts": "3.4.0",
@@ -17,10 +17,9 @@
     "react-stripe-elements": "^6.1.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "stripe": "^8.24.0"
+    "stripe": "^8.29.0"
   },
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
