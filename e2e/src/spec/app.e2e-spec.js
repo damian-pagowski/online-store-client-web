@@ -6,6 +6,20 @@ const ProductCategories = require("../po/product-categories.po");
 const EC = browser.ExpectedConditions;
 const WAIT_TIME = 2000;
 
+
+// * Pick one of your favorite e-commerce websites
+// * You need to implement following tests:
+//   * Login
+//   * Searching products by three criteria
+//   * Adding products to the cart
+//   * Removing products from the cart
+//   * Checkout process
+//   * If possible, implement a sign-up / registration test
+// * Add an HTML report of test results
+// * Report any bugs you find by writing a bug ticket
+// * Please prepare a document with the test flows and test cases. The documents have to be clear both to the developer and to someone who is not familiar with the technology.
+// * Run tests in a continuous integration tool and optionally in the cloud
+
 describe("Online store end-to-end tests", function() {
   const testData = {};
 

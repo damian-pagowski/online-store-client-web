@@ -81,12 +81,14 @@ class Navbar extends React.Component {
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
               {user.email ? (
+                
                 <Link
                   id="logout-link"
                   className="nav-link"
                   onClick={this.handleLogout}
                   to="/"
                 >
+                  <span id="logged-user">{user.email.substring(0, user.email.indexOf("@"))+ " "}</span>
                   <i className="fa fa-user icon-nav-right"></i>Logout
                 </Link>
               ) : (
@@ -114,7 +116,7 @@ class Navbar extends React.Component {
 function mapStateToProps({ user, cart }) {
   return {
     cart,
-    user
+    user,
   };
 }
 
