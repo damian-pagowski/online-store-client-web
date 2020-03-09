@@ -19,6 +19,8 @@
     "redux-thunk": "^2.3.0",
     "stripe": "^8.24.0"
   },
+  "devDependencies": {
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
