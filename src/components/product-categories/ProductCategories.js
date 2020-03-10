@@ -38,6 +38,7 @@ class ProductCategoriesAccordion extends React.Component {
                   className="btn btn-link collapsed category-name"
                   type="button"
                   onClick={this.showAllProducts}
+                  id="show-all-btn"
                 >
                   Show All
                 </button>
@@ -47,7 +48,11 @@ class ProductCategoriesAccordion extends React.Component {
         </div>
         {Object.keys(categories).length > 0 &&
           Object.keys(categories).map((key, i) => (
-            <div className="accordion" id="productCategoriesAccordion" key={i}>
+            <div
+              className="accordion"
+              id={`product-categories-accordion-${i}`}
+              key={i}
+            >
               <div className="card">
                 <div className="card-header" id={`heading-${i}`}>
                   <h2 className="mb-0">
@@ -75,7 +80,7 @@ class ProductCategoriesAccordion extends React.Component {
                   id={`collapse-${i}`}
                   className={`collapse ${i === 0 && "show"}`}
                   aria-labelledby={`heading-${i}`}
-                  data-parent="#productCategoriesAccordion"
+                  data-parent={`#product-categories-accordion-${i}`}
                 >
                   <div className="card-body">
                     <ul className="list-group">
@@ -85,7 +90,7 @@ class ProductCategoriesAccordion extends React.Component {
                             className="list-group-item"
                             subcategory={sub}
                             key={i}
-                            id={key}
+                            id={sub}
                             onClick={() => this.showSubcategory(key, sub)}
                           >
                             {categories[key].subcategories[sub]}
@@ -105,7 +110,7 @@ class ProductCategoriesAccordion extends React.Component {
 
 function mapStateToProps({ categories }) {
   return {
-    categories
+    categories,
   };
 }
 
