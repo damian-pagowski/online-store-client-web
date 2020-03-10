@@ -11,7 +11,7 @@ function ProductListItem(props) {
     props.dispatch(_addToCart(data));
   };
   return (
-    <li className="media product-list-item" id={`product-${productId}`}>
+    <li className="media product-list-item" id={`product-${data.productId}`}>
       <img src={BASE_URL+data.image} className="mr-3 product-img" alt="..." />
       <div className="media-body">
         <div className="product-info-wrapper mx-4">
