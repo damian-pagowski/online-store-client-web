@@ -2,156 +2,130 @@ const ProductList = require("../po/product-list.po");
 const Navbar = require("../po/navbar.po");
 const LoginPage = require("../po/login.po");
 const RegisterPage = require("../po/register.po");
-const ProductCategories = require("../po/product-categories.po");
-const EC = browser.ExpectedConditions;
-const WAIT_TIME = 2000;
-
-
-// * Pick one of your favorite e-commerce websites
-// * You need to implement following tests:
-//   * Login
-//   * Searching products by three criteria
-//   * Adding products to the cart
-//   * Removing products from the cart
-//   * Checkout process
-//   * If possible, implement a sign-up / registration test
-// * Add an HTML report of test results
-// * Report any bugs you find by writing a bug ticket
-// * Please prepare a document with the test flows and test cases. The documents have to be clear both to the developer and to someone who is not familiar with the technology.
-// * Run tests in a continuous integration tool and optionally in the cloud
+const Cart = require("../po/cart.po");
+const CheckoutPage = require("../po/checkout.po");
+const PaymentConfirmationPage = require("../po/payment-confirmation.po");
+const {
+  waitForElementToBeVisible,
+  waitForElementDisappear,
+  waitForTextToBe,
+  waitForProductListToLoad,
+  waitForElementToBeClickable,
+  currentUrl,
+} = require("../helpers/wait");
 
 describe("Online store end-to-end tests", function() {
   const testData = {};
-
   let mainPage;
   let navbar;
   let loginPage;
   let registerPage;
-  let categories;
+  let cart;
+  let checkoutPage;
 
   beforeAll(() => {
-    testData.email = new Date().getTime() + "@test.com";
+    timestampNow = new Date().getTime();
+    testData.username = "" + timestampNow;
+    testData.email = "" + timestampNow + "@test.com";
     testData.password = "test";
   });
 
-  afterAll(() => {
-    browser.restart();
-  });
+  // afterEach(function() {
+  //   console.log("afterEach: clear local storage & restart browser");
+  //   browser.manage().deleteAllCookies();
+  //   browser.restart();
+  // });
 
   beforeEach(() => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
     browser.ignoreSynchronization = true;
+
     mainPage = new ProductList();
     navbar = new Navbar();
     loginPage = new LoginPage();
     registerPage = new RegisterPage();
-    categories = new ProductCategories();
+    cart = new Cart();
+    checkoutPage = new CheckoutPage();
+    confirmationPage = new PaymentConfirmationPage();
     mainPage.go();
   });
 
-  // it("should register user with valid credentials", () => {
-  //   waitForElementToBeVisible(mainPage.listContainer);
-  //   navbar.clickLogin();
-  //   waitForElementToBeVisible(loginPage.loginLogo);
-  //   expect(currentUrl()).toEqual(`${mainPage.baseUrl}/login`);
-
-  //   loginPage.clickRegister();
-  //   waitForElementToBeVisible(registerPage.loginLink);
-  //   expect(currentUrl()).toEqual(`${mainPage.baseUrl}/register`);
-
-  //   registerPage.setEmail(testData.email);
-  //   expect(registerPage.getEmail()).toEqual(testData.email);
-
-  //   registerPage.setPassword(testData.password);
-  //   expect(registerPage.getPassword()).toEqual(testData.password);
-
-  //   registerPage.clickRegister();
-  //   waitForElementToBeVisible(navbar.logoutLink);
-  //   expect(currentUrl()).toEqual(mainPage.baseUrl + "/");
-  // });
-
-  // it("should log it using valid credentials", () => {
-  //   waitForElementToBeVisible(mainPage.listContainer);
-  //   navbar.clickLogin();
-  //   waitForElementToBeVisible(loginPage.loginLogo);
-  //   expect(currentUrl()).toEqual(`${mainPage.baseUrl}/login`);
-  //   registerPage.setEmail(testData.email);
-  //   expect(registerPage.getEmail()).toEqual(testData.email);
-  //   registerPage.setPassword(testData.password);
-  //   expect(registerPage.getPassword()).toEqual(testData.password);
-  //   registerPage.clickRegister();
-  //   waitForElementToBeVisible(navbar.logoutLink);
-  //   expect(currentUrl()).toEqual(mainPage.baseUrl + "/");
-  // });
-
-  it("Searching products by three criteria", () => {
+  it("should register new user", () => {
     waitForElementToBeVisible(mainPage.listContainer);
-    waitForElementToBeClickable(categories.computers);
-    categories.computers.click();
-    waitForElementToBeClickable(categories.laptops);
-    categories.laptops.click();
-    waitForProductListToLoad(mainPage)
-    mainPage.products.count( count => expect(count).toEqual(2));
+    navbar.clickLogin();
+    waitForElementToBeVisible(loginPage.loginLogo);
+    expect(currentUrl()).toEqual(
+      `${mainPage.baseUrl}/login`,
+      "Login page should be loaded"
+    );
 
+    loginPage.clickRegister();
+    waitForElementToBeVisible(registerPage.loginLink);
+    expect(currentUrl()).toEqual(
+      `${mainPage.baseUrl}/register`,
+      "Registration page should be loaded"
+    );
 
-    // .getText(text => expect(text).toBe('Som Tam Air'))
-    expect(element(by.css('.product-name')).getText()).toEqual('Y-Book Premium Pro');
+    registerPage.setEmail(testData.email);
+    expect(registerPage.getEmail()).toEqual(
+      testData.email,
+      "Email should be set"
+    );
 
+    registerPage.setPassword(testData.password);
+    expect(registerPage.getPassword()).toEqual(
+      testData.password,
+      "Password should be set"
+    );
 
-    // expect(currentUrl()).toEqual(`${mainPage.baseUrl}/login`);
-    // registerPage.setEmail(testData.email);
-    // expect(registerPage.getEmail()).toEqual(testData.email);
-    // registerPage.setPassword(testData.password);
-    // expect(registerPage.getPassword()).toEqual(testData.password);
-    // registerPage.clickRegister();
-    // waitForElementToBeVisible(navbar.logoutLink);
-    // expect(currentUrl()).toEqual(mainPage.baseUrl + "/");
+    registerPage.clickRegister();
+    waitForElementToBeVisible(navbar.loggedUserName);
+    expect(navbar.getLoggedUserName()).toEqual(
+      testData.username,
+      "Logged user name should be displayed in navbar"
+    );
   });
 
-  // * Searching products by three criteria
-  //  * Adding products to the cart
-  //  * Removing products from the cart
-  //  * Checkout process
-  //  * If possible, implement a sign-up / registration test
+  it("should check out", () => {
+    waitForElementToBeVisible(navbar.loggedUserName);
+    waitForElementToBeVisible(mainPage.listContainer);
+    waitForProductListToLoad(mainPage);
+    mainPage.addFirstProductToCart();
+    navbar.clickCart();
+    waitForElementToBeVisible(cart.cartItemName);
+    expect(cart.cartItemName.getText()).toEqual("Snake 3D");
+    expect(cart.unitPrice.getText()).toEqual("Unit Price EUR 99.99");
+    expect(cart.cartSubTotal.getText()).toEqual("Subtotal EUR 99.99");
+    waitForTextToBe(cart.cartTotal, "EUR 99.99");
+    waitForElementToBeClickable(cart.payButton);
+    cart.payButton.click();
+
+    waitForElementToBeClickable(checkoutPage.emailInput);
+    checkoutPage.emailInput.sendKeys(testData.email);
+    checkoutPage.cardNumberInput.sendKeys("4242424242424242");
+    checkoutPage.cardExpirationInput.sendKeys("1230");
+    checkoutPage.cvcInput.sendKeys("123");
+    checkoutPage.cvcInput.sendKeys("123");
+    checkoutPage.cardHolderInput.sendKeys("Mr Protractor");
+    waitForElementToBeClickable(checkoutPage.submitButton);
+    checkoutPage.submitButton.click();
+    waitForElementToBeVisible(confirmationPage.successIcon);
+    waitForElementToBeVisible(confirmationPage.messageResult);
+    waitForElementToBeVisible(confirmationPage.messageAdditional);
+    expect(confirmationPage.messageResult.getText()).toEqual(
+      "Purchase was successful"
+    );
+    expect(confirmationPage.messageAdditional.getText()).toEqual(
+      "Your item will be sent to you within 48 hours."
+    );
+    waitForElementToBeClickable(confirmationPage.backButton);
+    confirmationPage.backButton.click();
+
+    waitForElementToBeVisible(mainPage.listContainer);
+
+    expect(currentUrl()).toEqual(
+      `${mainPage.baseUrl}/`,
+      "Main page should be loaded"
+    );
+  });
 });
-
-function waitForElementToBeClickable(element) {
-  browser.wait(
-    EC.elementToBeClickable(element),
-    WAIT_TIME,
-    "Wait for element to be clickable"
-  );
-}
-
-function waitForElementToBeVisible(element) {
-  browser.wait(
-    EC.visibilityOf(element),
-    WAIT_TIME,
-    "Wait for element to be visible"
-  );
-}
-
-function waitForUrlToContain(text) {
-  browser.wait(
-    EC.urlContains(text),
-    WAIT_TIME,
-    `Wait for url to contain: ${text}`
-  );
-}
-
-function waitForProductListToLoad(productListPage){
-  browser.wait(presenceOfAll(productListPage.products, WAIT_TIME));
-}
-
-function presenceOfAll(elementArrayFinder) {
-  return function () {
-      return elementArrayFinder.count(function (count) {
-          return count > 0;
-      });
-  };
-}
-
-
-
-function currentUrl() {
-  return browser.getCurrentUrl();
-}

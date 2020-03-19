@@ -1,8 +1,8 @@
 class Register {
   emailInput = element(by.id("email"));
   passwordInput = element(by.id("password"));
-  registerButton = element(by.css("button"));
-  loginLink = element(by.linkText("login"));
+  registerButton = element(by.id("register-btn"));
+  loginLink = element(by.id("link-to-login"));
 
   setEmail = email => this.emailInput.sendKeys(email);
   setPassword = password => this.passwordInput.sendKeys(password);

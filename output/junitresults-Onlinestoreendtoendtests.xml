@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites disabled="0" errors="0" failures="0" tests="2" time="31.869">
+ <testsuite name="Online store end-to-end tests" timestamp="2020-03-19T17:31:23" hostname="localhost" time="31.869" errors="0" tests="2" skipped="0" disabled="0" failures="0">
+  <testcase classname="Online store end-to-end tests" name="should register new user" time="9.038" />
+  <testcase classname="Online store end-to-end tests" name="should check out" time="18.681" />
+ </testsuite>
+</testsuites>
