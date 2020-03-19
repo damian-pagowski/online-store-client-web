@@ -20,9 +20,9 @@ exports.config = {
   },
   capabilities: {
     browserName: "chrome",
-    // directConnect: true,
-    // "goog:chromeOptions": {
-    //   args: ["--headless", "--disable-gpu", "--window-size=1366,768"],
-    // },
+    directConnect: true,
+    "goog:chromeOptions": {
+      args: ["--headless", "--disable-gpu", "--window-size=1366,768"],
+    },
   },
 };

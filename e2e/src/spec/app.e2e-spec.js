@@ -30,12 +30,6 @@ describe("Online store end-to-end tests", function() {
     testData.password = "test";
   });
 
-  // afterEach(function() {
-  //   console.log("afterEach: clear local storage & restart browser");
-  //   browser.manage().deleteAllCookies();
-  //   browser.restart();
-  // });
-
   beforeEach(() => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
     browser.ignoreSynchronization = true;
@@ -86,7 +80,7 @@ describe("Online store end-to-end tests", function() {
     );
   });
 
-  it("should check out", () => {
+  it("should complete check out process", () => {
     waitForElementToBeVisible(navbar.loggedUserName);
     waitForElementToBeVisible(mainPage.listContainer);
     waitForProductListToLoad(mainPage);
