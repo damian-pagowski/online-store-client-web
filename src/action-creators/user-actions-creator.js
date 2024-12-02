@@ -3,7 +3,6 @@ import api from "../api/usersApi";
 import { showLoading, hideLoading } from "react-redux-loading";
 
 export function handleLogin(user) {
-  console.log(JSON.stringify(user))
   return dispatch => {
     dispatch(showLoading());
 

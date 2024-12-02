@@ -16,16 +16,11 @@ const fetchJson = (url, options = {}) =>
 
 const api = {
   products(category, sub, search) {
-    console.log(">>> API PRODUCTS PARAMS:", { category, sub, search });
-
     const params = {};
     if (category) params.category = category;
     if (sub) params.subcategory = sub;
     if (search) params.search = search;
-
     const url = buildUrl(`${BASE_URL}/products`, params);
-
-    console.log("api -> get products. url:", url);
     return fetchJson(url);
   },
 

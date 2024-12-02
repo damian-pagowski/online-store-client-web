@@ -3,23 +3,23 @@ import apiCart from "../api/cartAPI";
 
 export function _addToCart(item) {
   return (dispatch, getState) => {
-    const { authHeader, username } = getState().user; // Get authHeader and username from state
+    const { authHeader, username } = getState().user; 
     const { productId } = item;
     apiCart
-      .addItem(username, productId, 1, authHeader) // Call the updated addItem method
-      .then((cart) => dispatch(updateCart(cart))) // Dispatch updated cart to the store
-      .catch((err) => console.error("Error adding to cart:", err)); // Handle errors
+      .addItem(username, productId, 1, authHeader)
+      .then((cart) => dispatch(updateCart(cart)))
+      .catch((err) => console.error("Error adding to cart:", err)); 
   };
 }
 
 export function _updateQuantity(item) {
   return (dispatch, getState) => {
-    const { authHeader, username } = getState().user; // Get authHeader and username from state
+    const { authHeader, username } = getState().user;
 
     apiCart
-      .addItem(username, item.productId, item.quantity, authHeader) // Reuse addItem with the updated quantity
+      .addItem(username, item.productId, item.quantity, authHeader)
       .then((cart) => {
-        dispatch(updateCart(cart)); // Dispatch updated cart
+        dispatch(updateCart(cart)); 
       })
       .catch((err) => console.error("Error updating quantity:", err));
   };
@@ -27,12 +27,12 @@ export function _updateQuantity(item) {
 
 export function _removeItem(item) {
   return (dispatch, getState) => {
-    const { authHeader, username } = getState().user; // Get authHeader and username from state
+    const { authHeader, username } = getState().user; 
 
     apiCart
-      .addItem(username, item.productId, -item.quantity, authHeader) // Reduce quantity by sending a negative value
+      .addItem(username, item.productId, -item.quantity, authHeader)
       .then((cart) => {
-        dispatch(updateCart(cart)); // Dispatch updated cart
+        dispatch(updateCart(cart));
       })
       .catch((err) => console.error("Error removing item:", err));
   };
@@ -40,12 +40,12 @@ export function _removeItem(item) {
 
 export function _getCart() {
   return (dispatch, getState) => {
-    const { authHeader, username } = getState().user; // Get authHeader and username from state
+    const { authHeader, username } = getState().user;
 
     apiCart
-      .getCart(username, authHeader) // Fetch cart details for the user
+      .getCart(username, authHeader)
       .then((cart) => {
-        dispatch(updateCart(cart)); // Dispatch updated cart
+        dispatch(updateCart(cart));
       })
       .catch((err) => console.error("Error fetching cart:", err));
   };
