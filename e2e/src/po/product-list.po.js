@@ -9,7 +9,7 @@ class ProductList {
   go = function() {
     browser.driver.get(this.baseUrl);
   };
-
+  
   getProductWithId = id => element(by.id(`product-${id}`));
 
   getProducts = () => element.all(by.css(".product-list-item"));

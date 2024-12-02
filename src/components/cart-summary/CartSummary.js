@@ -3,7 +3,6 @@ import "./CartSummary.css";
 import { useSelector } from "react-redux";
 import api from "../../api/cartAPI";
 
-const PK_STRIPE = process.env.REACT_APP_PK_STRIPE;
 
 const CartSummary = () => {
   const cart = useSelector((state) => state.cart);
@@ -11,18 +10,12 @@ const CartSummary = () => {
 
   const handlePayment = async () => {
     try {
-      console.log("Public key:", PK_STRIPE);
       const response = await api.charge();
       console.log("/charge response:", response);
 
-      const stripe = window.Stripe(PK_STRIPE);
-      const result = await stripe.redirectToCheckout({
-        sessionId: response.session.id,
-      });
+    
 
-      if (result.error) {
-        console.error("Payment error:", result.error.message);
-      }
+   
     } catch (error) {
       console.error("Error during payment:", error.message);
     }

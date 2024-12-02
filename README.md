@@ -10,7 +10,6 @@ Requires specific environment variables to run:
 
 ```bash
 REACT_APP_API_URL=
-REACT_APP_PK_STRIPE=
 ```
 
 Installing dependencies:
