@@ -1,34 +1,37 @@
 const BASE_URL = process.env.REACT_APP_API_URL;
 
 const headers = {
-  "Content-Type": "application/json"
+  "Content-Type": "application/json",
 };
+
+const buildUrl = (base, params = {}) => {
+  const query = new URLSearchParams(params).toString();
+  return query ? `${base}?${query}` : base;
+};
+
+const fetchJson = (url, options = {}) =>
+  fetch(url, { ...options, headers, mode: "cors" }).then((response) =>
+    response.json()
+  );
+
 const api = {
   products(category, sub, search) {
-    console.log(
-      ">>> API PRODUCTS PARAMS: " + category + " " + sub + " " + search
-    );
-    let url = `${BASE_URL}/products`;
-    if (category) {
-      url += `?category=${category}`;
-      if (sub) {
-        url += `&subcategory=${sub}`;
-      }
-    }
-    if (search) {
-      url += category ? `&search=${search}` : `?search=${search}`;
-    }
-    console.log("api -> get products. url: " + url);
-    return fetch(url, {
-      method: "GET",
-      headers: headers
-    }).then(response => response.json());
+    console.log(">>> API PRODUCTS PARAMS:", { category, sub, search });
+
+    const params = {};
+    if (category) params.category = category;
+    if (sub) params.subcategory = sub;
+    if (search) params.search = search;
+
+    const url = buildUrl(`${BASE_URL}/products`, params);
+
+    console.log("api -> get products. url:", url);
+    return fetchJson(url);
   },
+
   categories() {
-    return fetch(`${BASE_URL}/products/categories`, {
-      method: "GET",
-      headers: headers
-    }).then(response => response.json());
-  }
+    return fetchJson(`${BASE_URL}/products/categories`);
+  },
 };
+
 export default api;

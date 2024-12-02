@@ -1,117 +1,101 @@
-import React from "react";
-import "./ProductCategories.css";
-import { connect } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { _getCategories } from "../../action-creators/categories-actions-creator";
-import { _getProducts } from "../../action-creators/products-actions-creator";
+import "./ProductCategories.css";
 
-class ProductCategoriesAccordion extends React.Component {
-  componentDidMount() {
-    this.props.dispatch(_getCategories());
-  }
+const ProductCategoriesAccordion = ({ filterHandler, resetResults }) => {
+  const dispatch = useDispatch();
+  const categories = useSelector((state) => state.categories);
 
-  showSubcategory = (category, subcategory) => {
-    console.log(
-      "product filter called - accordion: " + category + " " + subcategory
-    );
-    this.props.filterHandler(category, subcategory);
-  };
+  useEffect(() => {
+    dispatch(_getCategories());
+  }, [dispatch]);
 
-  showAllProducts = () => this.props.resetResults();
-
-  toggleIcon = elementId => {
+  const toggleIcon = (elementId) => {
     const icon = document.getElementById(elementId);
-
-    icon.classList.toggle("fa-chevron-down");
-    icon.classList.toggle("fa-chevron-up");
+    if (icon) {
+      icon.classList.toggle("fa-chevron-down");
+      icon.classList.toggle("fa-chevron-up");
+    }
   };
 
-  render() {
-    const categories = this.props.categories;
-    console.log("> categories > " + JSON.stringify(categories));
-    return (
-      <div>
-        <div className="accordion">
-          <div className="card">
-            <div className="card-header">
-              <h2 className="mb-0">
-                <button
-                  className="btn btn-link collapsed category-name"
-                  type="button"
-                  onClick={this.showAllProducts}
-                  id="show-all-btn"
-                >
-                  Show All
-                </button>
-              </h2>
-            </div>
+  return (
+    <div>
+      <div className="accordion">
+        <div className="card">
+          <div className="card-header">
+            <h2 className="mb-0">
+              <button
+                className="btn btn-link collapsed category-name"
+                type="button"
+                onClick={resetResults}
+                id="show-all-btn"
+              >
+                Show All
+              </button>
+            </h2>
           </div>
         </div>
-        {Object.keys(categories).length > 0 &&
-          Object.keys(categories).map((key, i) => (
-            <div
-              className="accordion"
-              id={`product-categories-accordion-${i}`}
-              key={i}
-            >
-              <div className="card">
-                <div className="card-header" id={`heading-${i}`}>
-                  <h2 className="mb-0">
-                    <button
-                      className="btn btn-link collapsed category-name"
-                      type="button"
-                      data-toggle="collapse"
-                      data-target={`#collapse-${i}`}
-                      aria-expanded="false"
-                      id={key}
-                      aria-controls={`collapse-${i}`}
-                      onClick={() => this.toggleIcon(`collapse-${i}-icon`)}
-                    >
-                      {categories[key].display}{" "}
-                      <i
-                        id={`collapse-${i}-icon`}
-                        className={`fa fa-chevron-${i === 0 ? "up" : "down"}`}
-                        aria-hidden="true"
-                      ></i>
-                    </button>
-                  </h2>
-                </div>
+      </div>
 
-                <div
-                  id={`collapse-${i}`}
-                  className={`collapse ${i === 0 && "show"}`}
-                  aria-labelledby={`heading-${i}`}
-                  data-parent={`#product-categories-accordion-${i}`}
-                >
-                  <div className="card-body">
-                    <ul className="list-group">
-                      {Object.keys(categories[key].subcategories).map(
-                        (sub, i) => (
-                          <li
-                            className="list-group-item"
-                            subcategory={sub}
-                            key={i}
-                            id={sub}
-                            onClick={() => this.showSubcategory(key, sub)}
-                          >
-                            {categories[key].subcategories[sub]}
-                          </li>
-                        )
-                      )}
-                    </ul>
-                  </div>
+      {Object.keys(categories).length > 0 &&
+        Object.keys(categories).map((key, index) => (
+          <div
+            className="accordion"
+            id={`product-categories-accordion-${index}`}
+            key={index}
+          >
+            <div className="card">
+              <div className="card-header" id={`heading-${index}`}>
+                <h2 className="mb-0">
+                  <button
+                    className="btn btn-link collapsed category-name"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target={`#collapse-${index}`}
+                    aria-expanded="false"
+                    id={key}
+                    aria-controls={`collapse-${index}`}
+                    onClick={() => toggleIcon(`collapse-${index}-icon`)}
+                  >
+                    {categories[key].display}{" "}
+                    <i
+                      id={`collapse-${index}-icon`}
+                      className={`fa fa-chevron-${index === 0 ? "up" : "down"}`}
+                      aria-hidden="true"
+                    ></i>
+                  </button>
+                </h2>
+              </div>
+
+              <div
+                id={`collapse-${index}`}
+                className={`collapse ${index === 0 && "show"}`}
+                aria-labelledby={`heading-${index}`}
+                data-parent={`#product-categories-accordion-${index}`}
+              >
+                <div className="card-body">
+                  <ul className="list-group">
+                    {categories[key].subcategories.map((sub, subIndex) => (
+                      <li
+                        className="list-group-item"
+                        key={subIndex}
+                        id={sub.name}
+                        onClick={() =>
+                          filterHandler(categories[key].name, sub.name)
+                        }
+                      >
+                        {sub.display}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             </div>
-          ))}
-      </div>
-    );
-  }
-}
+          </div>
+        ))}
+    </div>
+  );
+};
 
-function mapStateToProps({ categories }) {
-  return {
-    categories,
-  };
-}
-
-export default connect(mapStateToProps)(ProductCategoriesAccordion);
+export default ProductCategoriesAccordion;

@@ -1,38 +1,36 @@
 const BASE_URL = process.env.REACT_APP_API_URL;
-const headerJson = { "content-type": "application/json" };
+
+const defaultHeaders = {
+  "Content-Type": "application/json",
+};
+
+const fetchJson = (url, options) =>
+  fetch(url, options).then((response) => response.json());
 
 const api = {
-  login(email, password) {
-    let formData = new FormData();
-    formData.append("email", email);
-    formData.append("password", password);
-
-    return fetch(`${BASE_URL}/users/login`, {
+  login(username, password) {
+    return fetchJson(`${BASE_URL}/users/login`, {
       method: "POST",
-      headers: headerJson,
-      credentials: 'same-origin',
-
-      body: JSON.stringify({ email, password }),
-    }).then(response => response.json());
+      headers: defaultHeaders,
+      credentials: "same-origin",
+      body: JSON.stringify({ username, password }),
+    });
   },
   register(email, password) {
-    let formData = new FormData();
-    formData.append("email", email);
-    formData.append("password", password);
-
-    return fetch(`${BASE_URL}/users/register`, {
+    const username = email.split("@")[0];
+    return fetchJson(`${BASE_URL}/users`, {
       method: "POST",
-      headers: headerJson,
-      credentials: 'same-origin',
-
-      body: JSON.stringify({ email, password }),
-    }).then(response => response.json());
+      headers: defaultHeaders,
+      credentials: "same-origin",
+      body: JSON.stringify({ email, password, username }),
+    });
   },
   logout() {
-    return fetch(`${BASE_URL}/users/logout`, {
+    return fetchJson(`${BASE_URL}/users/logout`, {
       method: "GET",
-      credentials: 'same-origin',
-    }).then(response => response.json());
+      credentials: "same-origin",
+    });
   },
 };
+
 export default api;

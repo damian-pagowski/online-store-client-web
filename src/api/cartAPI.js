@@ -1,68 +1,51 @@
 const BASE_URL = process.env.REACT_APP_API_URL;
 
 const headers = {
-  "Content-Type": "application/json"
+  "Content-Type": "application/json",
 };
-const api = {
-  details() {
-    return fetch(`${BASE_URL}/cart/details`, {
+
+const fetchJson = (url, options = {}) =>
+  fetch(url, { ...options}).then((response) =>
+    response.json()
+  );
+  
+const apiCart = {
+
+  addItem(username, productId, quantity, authHeader) {
+    const url = `${BASE_URL}/cart/${username}`;
+    const body = { productId, quantity };
+
+    return fetchJson(url, {
+      method: "POST",
+      headers: {
+        ...headers,
+        Authorization: authHeader,
+      },
+      body: JSON.stringify(body),
+    });
+  },
+
+  getCart(username, authHeader) {
+    const url = `${BASE_URL}/cart/${username}`;
+    return fetchJson(url, {
       method: "GET",
-      headers: headers,
-      credentials: "include",
-      mode: "cors" // no-cors, *cors, same-origin
-    })
-      .then(response => response.json())
-      .catch(error => console.log(error));
+      headers: {
+        ...headers,
+        Authorization: authHeader,
+      },
+    });
   },
-  add(item) {
-    // productId, quantity
-    let url = `${BASE_URL}/cart/add`;
-    return fetch(url, {
-      method: "POST",
-      body: JSON.stringify(item),
-      headers: headers,
-      credentials: "include",
-      mode: "cors" // no-cors, *cors, same-origin
-    })
-      .then(response => response.json())
-      .catch(error => console.log(error));
+
+  deleteCart(username, authHeader) {
+    const url = `${BASE_URL}/cart/${username}`;
+    return fetchJson(url, {
+      method: "DELETE",
+      headers: {
+        ...headers,
+        Authorization: authHeader,
+      },
+    });
   },
-  charge() {
-    // productId, quantity
-    let url = `${BASE_URL}/cart/charge`;
-    return fetch(url, {
-      method: "GET",
-      headers: headers,
-      credentials: "include",
-      mode: "cors" // no-cors, *cors, same-origin
-    })
-      .then(response => response.json())
-      .catch(error => console.log(error));
-  },
-  update(item) {
-    // productId, quantity
-    let url = `${BASE_URL}/cart/edit`;
-    return fetch(url, {
-      method: "POST",
-      body: JSON.stringify(item),
-      headers: headers,
-      credentials: "include",
-      mode: "cors" // no-cors, *cors, same-origin
-    })
-      .then(response => response.json())
-      .catch(error => console.log(error));
-  },
-  delete(item) {
-    let url = `${BASE_URL}/cart/remove`;
-    return fetch(url, {
-      method: "POST",
-      body: JSON.stringify(item),
-      headers: headers,
-      credentials: "include",
-      mode: "cors"
-    })
-      .then(response => response.json())
-      .catch(error => console.log(error));
-  }
 };
-export default api;
+
+export default apiCart;
