@@ -21,7 +21,7 @@ const Register = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  if (user.email) {
+  if (user.token) {
     return <Redirect to="/" />;
   }
 

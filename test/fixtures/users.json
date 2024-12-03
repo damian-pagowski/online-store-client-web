@@ -5,6 +5,7 @@
       "username": "testuser123"
     },
     "invalidUser": {
+      "username": "testuser123",
       "email": "invalid@example.com",
       "password": "wrongpassword"
     }

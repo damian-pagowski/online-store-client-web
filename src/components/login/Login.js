@@ -21,7 +21,7 @@ const Login = () => {
     setCredentials((prev) => ({ ...prev, [name]: value }));
   };
 
-  if (user.authHeader) {
+  if (user.token) {
     return <Redirect to="/" />;
   }
 
@@ -59,7 +59,7 @@ const Login = () => {
               />
             </div>
             {user.message && (
-              <p className="text-danger">Invalid password. Please try again.</p>
+              <p id="login-error" className="text-danger">Invalid password. Please try again.</p>
             )}
             <button
               type="submit"

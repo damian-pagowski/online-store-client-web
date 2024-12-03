@@ -10,15 +10,16 @@ class LoginSteps {
         return LoginPage.login(username, password)
     }
 
-    verifyLoginSuccess(username) {
-        browser.sleep(1000)
-        // expect(NavbarPage.isUserLoggedIn()).toBeTrue();
-        return expect(NavbarPage.getLoggedUserName()).toEqual(username);
+    async verifyLoginSuccess(username) {
+        const loggerUser = await NavbarPage.getLoggedUserName();
+        return expect(loggerUser).toEqual(username);
+    }
+    async verifyLoginErrorMessage() {
+        const hasError = await LoginPage.loginError.isDisplayed()
+        return expect(hasError).toBe(true);
     }
 
-    logout() {
-        return NavbarPage.logoutLink.click();
-    }
+
 }
 
 module.exports = new LoginSteps();

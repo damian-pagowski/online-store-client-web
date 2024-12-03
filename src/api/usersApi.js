@@ -25,12 +25,6 @@ const api = {
       body: JSON.stringify({ email, password, username }),
     });
   },
-  logout() {
-    return fetchJson(`${BASE_URL}/users/logout`, {
-      method: "GET",
-      credentials: "same-origin",
-    });
-  },
 };
 
 export default api;

@@ -16,8 +16,11 @@ class NavbarPage {
         return this.cartSize.getText();
     }
 
-    getLoggedUserName() {
-        return this.loggedUserName.getText();
+    async getLoggedUserName() {
+        await this.loggedUserName.waitForDisplayed({ timeout: 9000 })
+        let text = await  this.loggedUserName.getText();
+        console.log("UNAME TEXT: " + text)
+        return text
     }
 }
 

@@ -8,9 +8,7 @@ export function handleLogin(user) {
 
     api.login(user.username, user.password).then(data => {
       localStorage.setItem("shop-user-profile", JSON.stringify({ ...data }));
-      const authHeader = `Basic ${btoa(user.username + ":" + user.password)}`;
-
-      dispatch(logIn({ ...data, authHeader:authHeader }));
+      dispatch(logIn({ ...data }));
     }).catch(error => console.log("Error while logging in: " + error));
     dispatch(hideLoading());
   };
@@ -21,9 +19,8 @@ export function handleRegister(user) {
     dispatch(showLoading());
 
     api.register(user.email, user.password).then(data => {
-      const authHeader = `Basic ${btoa(user.username + ":" + user.password)}`;
-      localStorage.setItem("shop-user-profile", JSON.stringify({  ...data, authHeader:authHeader }));
-      dispatch(logIn({ ...data, authHeader:authHeader }));
+      localStorage.setItem("shop-user-profile", JSON.stringify({ ...data }));
+      dispatch(logIn({ ...data }));
     }).catch(error => console.log("Error while logging in: " + error));
     dispatch(hideLoading());
   };
@@ -31,11 +28,7 @@ export function handleRegister(user) {
 
 export function handleLogout() {
   return dispatch => {
-    dispatch(showLoading());
-    api.logout().then(data => {
-      localStorage.removeItem("store-user");
-      dispatch(logOut());
-      dispatch(hideLoading());
-    });
+    dispatch(logOut());
+    localStorage.removeItem("store-user");
   };
 }
