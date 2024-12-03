@@ -1,8 +1,8 @@
 const loginSteps = require('../../steps/login.steps');
 const users = require('../../fixtures/users.json');
 
-beforeEach(() => {
-    loginSteps.openLoginPage();
+beforeEach(async () => {
+    await loginSteps.openLoginPage();
 });
 
 it('should login successfully with valid credentials', async () => {

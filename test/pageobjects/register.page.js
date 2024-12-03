@@ -19,6 +19,10 @@ class RegisterPage {
     getPassword() {
         return this.passwordInput.getValue();
     }
+
+    open() {
+        return browser.url('/register');
+    }
 }
 
 module.exports = new RegisterPage();
