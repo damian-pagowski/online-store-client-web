@@ -1,7 +1,7 @@
 exports.config = {
     runner: 'local',
     specs: [
-        './test/specs/*.test.js'
+        '../specs/**/*.test.js'
     ],
     capabilities: [{
         maxInstances: 1,
@@ -18,7 +18,6 @@ exports.config = {
     waitforTimeout: 10000,
     connectionRetryTimeout: 120000,
     connectionRetryCount: 3,
-    services: ['vscode'],
     mochaOpts: {
         ui: 'bdd',
         timeout: 60000
