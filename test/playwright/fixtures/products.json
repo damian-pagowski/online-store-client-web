@@ -1,0 +1,12 @@
+{
+    "categoryFilters": [
+      {
+        "category": "Computers",
+        "subcategory": "Laptops"
+      },
+      {
+        "category": "Games",
+        "subcategory": "PS4"
+      }
+    ]
+  }

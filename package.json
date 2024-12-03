@@ -4,7 +4,6 @@
   "private": true,
   "author": "Damian Pagowski - d.pagowski@gmail.com",
   "dependencies": {
-    "@playwright/test": "^1.49.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.0.1",
     "@testing-library/user-event": "^14.5.2",
@@ -22,6 +21,8 @@
     "webdriverio": "^8.40.6"
   },
   "devDependencies": {
+    "@playwright/test": "^1.49.0",
+    "@types/node": "^22.10.1",
     "@wdio/cli": "^8.40.6",
     "@wdio/local-runner": "^8.40.6",
     "@wdio/mocha-framework": "^8.40.6",
@@ -34,8 +35,9 @@
   "scripts": {
     "start": "react-scripts --openssl-legacy-provider start",
     "build": "react-scripts --openssl-legacy-provider build",
-    "test": "echo \"Error: no test specified\" && exit 0",
-    "wdio": "wdio run ./test/wdio/config/wdio.conf.js"
+    "test:wdio": "wdio run ./test/wdio/config/wdio.conf.js",
+    "test:playwright": "playwright test --config=test/playwright/config/playwright.config.js",
+    "test:cypress": "cypress run --config-file test/cypress/cypress.config.js"
   },
   "eslintConfig": {
     "extends": "react-app"
