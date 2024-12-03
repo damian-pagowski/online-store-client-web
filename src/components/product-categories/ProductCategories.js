@@ -54,7 +54,7 @@ const ProductCategoriesAccordion = ({ filterHandler, resetResults }) => {
                     data-toggle="collapse"
                     data-target={`#collapse-${index}`}
                     aria-expanded="false"
-                    id={key}
+                    id={categories[key].name}
                     aria-controls={`collapse-${index}`}
                     onClick={() => toggleIcon(`collapse-${index}-icon`)}
                   >
