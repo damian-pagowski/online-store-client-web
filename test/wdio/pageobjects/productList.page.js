@@ -17,6 +17,16 @@ class ProductListPage {
     get productsNames() {
         return $$('.product-list-item .product-name');
     }
+
+    get showAll() { return $('=Show All'); }
+
+    getCategory(categoryName) {
+        return $(`#${categoryName}`);
+    }
+
+    getSubcategory(subcategoryName) {
+        return $(`#${subcategoryName}`);
+    }
     
 }
 

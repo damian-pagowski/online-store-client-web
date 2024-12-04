@@ -1,14 +1,13 @@
 const productListPage = require('../pageobjects/productList.page');
-const categoriesPage = require('../pageobjects/categories.page.js');
 
 class FilterSteps {
     async filterByCategory(categoryName) {
-        const category = await categoriesPage.getCategory(categoryName);
+        const category = await productListPage.getCategory(categoryName);
         await category.click();
     }
 
     async filterBySubcategory(subcategoryName) {
-        const subcategory = await categoriesPage.getSubcategory(subcategoryName);
+        const subcategory = await productListPage.getSubcategory(subcategoryName);
         await subcategory.click();
     }
 
