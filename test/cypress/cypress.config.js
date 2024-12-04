@@ -2,7 +2,7 @@ const { defineConfig } = require('cypress');
 
 module.exports = defineConfig({
   e2e: {
-    specPattern: 'test/cypress/integration/**/*.cy.{js,jsx,ts,tsx}',
+    specPattern: 'test/cypress/e2e/**/*.spec.{js,jsx,ts,tsx}',
     fixturesFolder: 'test/cypress/fixtures',
     supportFile: false,
     screenshotsFolder: 'test/cypress/screenshots',
