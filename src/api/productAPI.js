@@ -25,7 +25,7 @@ const api = {
   },
 
   categories() {
-    return fetchJson(`${BASE_URL}/products/categories`);
+    return fetchJson(`${BASE_URL}/categories`);
   },
 };
 

@@ -30,6 +30,7 @@
     "dotenv": "^8.2.0",
     "jasmine": "^3.5.0",
     "jasmine-reporters": "^2.3.2",
+    "json-server": "^1.0.0-beta.3",
     "protractor-jasmine2-html-reporter": "0.0.7",
     "wdio-vscode-service": "^6.1.2"
   },
@@ -39,7 +40,8 @@
     "test:wdio": "wdio run ./test/wdio/config/wdio.conf.js",
     "test:playwright": "playwright test --config=test/playwright/config/playwright.config.js",
     "test:cypress": "cypress run --config-file test/cypress/cypress.config.js",
-    "cypress": "cypress open --config-file test/cypress/cypress.config.js"
+    "cypress": "cypress open --config-file test/cypress/cypress.config.js",
+    "mock:server": "json-server --watch mock-server/db.json --port 3030"
   },
   "eslintConfig": {
     "extends": "react-app"
