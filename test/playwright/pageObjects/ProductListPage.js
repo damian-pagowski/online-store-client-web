@@ -17,18 +17,11 @@ class ProductListPage {
         await this.subcategorySelector(subcategoryName).click();
     }
 
-    async waitForResults() {
-        await this.page.waitForResponse((response) =>
-            response.url().includes('products?search') && response.status() === 200
-        );
-    }
-
     async getDisplayedProducts() {
         return this.productNameSelector.allInnerTexts();
     }
 
     async areSearchResultsRelevant(searchTerm) {
-        await this.waitForResults();
         const productNames = await this.getDisplayedProducts()
         return productNames.every((name) => name.toLowerCase().includes(searchTerm.toLowerCase()));
     }

@@ -1,5 +1,5 @@
 import loginPage from '../../pageObjects/loginPage.js';
-import navbarPage from '../../pageObjects/navbarPage.js';
+import navbarComponent from '../../pageObjects/navbarComponent.js';
 import users from '../../fixtures/users.json';
 
 describe('Login Tests', () => {
@@ -10,7 +10,7 @@ describe('Login Tests', () => {
     it('should login successfully with valid credentials', () => {
         const { username, password } = users.validUser;
         loginPage.login(username, password);
-        navbarPage.getLoggedUserName().should('contain.text', username);
+        navbarComponent.getLoggedUserName().should('contain.text', username);
     });
 
     it('should display an error message for invalid credentials', () => {

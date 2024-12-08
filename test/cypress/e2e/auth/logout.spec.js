@@ -1,5 +1,5 @@
 import loginPage from '../../pageObjects/loginPage.js';
-import navbarPage from '../../pageObjects/navbarPage.js';
+import navbarComponent from '../../pageObjects/navbarComponent.js';
 import users from '../../fixtures/users.json';
 
 describe('Logout Tests', () => {
@@ -10,8 +10,8 @@ describe('Logout Tests', () => {
     });
 
     it('should log out the user and redirect to the login page', () => {
-        navbarPage.logout();
-        navbarPage.getLogoutLink().should('not.exist');
-        navbarPage.getLoginLink().should('be.visible');
+        navbarComponent.logout();
+        navbarComponent.getLogoutLink().should('not.exist');
+        navbarComponent.getLoginLink().should('be.visible');
     });
 });

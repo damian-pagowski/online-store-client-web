@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
 const LoginPage = require('../../pageObjects/LoginPage');
-const NavbarPage = require('../../pageObjects/NavbarPage');
+const NavbarComponent = require('../../pageObjects/NavbarComponent');
 const ProductListPage = require('../../pageObjects/ProductListPage');
 const { validUser } = require('../../fixtures/users.json');
 
@@ -11,11 +11,11 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('should display relevant results for a search query', async ({ page }) => {
-  const navbarPage = new NavbarPage(page);
+  const navbar = new NavbarComponent(page);
   const productListPage = new ProductListPage(page);
   const searchTerm = 'durian';
 
-  await navbarPage.performSearch(searchTerm);
+  await navbar.performSearch(searchTerm);
 
   // Verify search results are relevant
   const areResultsRelevant = await productListPage.areSearchResultsRelevant(searchTerm);

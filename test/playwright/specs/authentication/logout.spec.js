@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
 const LoginPage = require('../../pageObjects/LoginPage');
-const NavbarPage = require('../../pageObjects/NavbarPage');
+const NavbarComponent = require('../../pageObjects/NavbarComponent');
 const { validUser }  = require('../../fixtures/users.json');
 let loginPage;
 test.beforeEach(async ({ page }) => {
@@ -13,11 +13,11 @@ test('should log out the user', async ({ page }) => {
   const loggedUserName = await loginPage.getLoggedUserName();
   expect(loggedUserName.trim()).toBe(validUser.username);
 
-  const navbarPage = new NavbarPage(page);
-  await navbarPage.logout();
+  const navbar = new NavbarComponent(page);
+  await navbar.logout();
 
-  const isLogoutVisible = await navbarPage.isLogoutLinkVisible();
+  const isLogoutVisible = await navbar.isLogoutLinkVisible();
   expect(isLogoutVisible).toBe(false);
-  const isLoginVisible = await navbarPage.isLoginLinkVisible();
+  const isLoginVisible = await navbar.isLoginLinkVisible();
   expect(isLoginVisible).toBe(true);
 });

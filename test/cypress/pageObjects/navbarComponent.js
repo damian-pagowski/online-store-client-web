@@ -1,4 +1,4 @@
-class NavbarPage {
+class NavbarComponent {
   
     getLoginLink() {
         return cy.get('#login-link');
@@ -41,4 +41,4 @@ class NavbarPage {
     }
 }
 
-export default new NavbarPage();
+export default new NavbarComponent();

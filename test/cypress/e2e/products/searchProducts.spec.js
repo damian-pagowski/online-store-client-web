@@ -1,5 +1,5 @@
 import loginPage from '../../pageObjects/loginPage';
-import navbarPage from '../../pageObjects/navbarPage';
+import navbarComponent from '../../pageObjects/navbarComponent';
 import productListPage from '../../pageObjects/productListPage';
 import { validUser } from '../../fixtures/users.json';
 
@@ -12,7 +12,7 @@ describe('Search products', () => {
     it('should display relevant results for a search query', () => {
         const searchTerm = 'durian';
 
-        navbarPage.performSearch(searchTerm);
+        navbarComponent.performSearch(searchTerm);
 
         productListPage.areSearchResultsRelevant(searchTerm).should('be.true');
 
