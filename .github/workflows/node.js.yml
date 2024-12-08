@@ -22,11 +22,8 @@ jobs:
     - name: Install dependencies
       run: npm install --legacy-peer-deps
 
-    - name: Start Mock Server
-      run: npm run mock:server &
-      
     - name: Start Application
-      run: npm run start &
+      run: npm run mock:server & npm run start
       env:
         CI: true
 
