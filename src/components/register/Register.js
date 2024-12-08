@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { handleRegister } from "../../action-creators/user-actions-creator";
-import { Redirect, Link } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import "./Register.css";
 
@@ -22,7 +22,8 @@ const Register = () => {
   };
 
   if (user.token) {
-    return <Redirect to="/" />;
+    return <Navigate to="/" replace />;
+
   }
 
   return (

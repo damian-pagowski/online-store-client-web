@@ -1,52 +1,53 @@
 import { updateCart } from "../actions/cart-actions";
 import apiCart from "../api/cartAPI";
 
-export function _addToCart(item) {
-  return (dispatch, getState) => {
-    const { authHeader, username } = getState().user; 
+const handleApiResponse = (dispatch, apiCall) => {
+  apiCall
+    .then((cart) => dispatch(updateCart(cart)))
+    .catch((err) => console.error("Cart API Error:", err));
+};
+
+const getAuthData = (getState) => {
+  const { authHeader, username } = getState().user;
+  if (!authHeader || !username) {
+    throw new Error("User authentication data is missing");
+  }
+  return { authHeader, username };
+};
+
+export const _addToCart = (item) => (dispatch, getState) => {
+  try {
+    const { authHeader, username } = getAuthData(getState);
     const { productId } = item;
-    apiCart
-      .addItem(username, productId, 1, authHeader)
-      .then((cart) => dispatch(updateCart(cart)))
-      .catch((err) => console.error("Error adding to cart:", err)); 
-  };
-}
+    handleApiResponse(dispatch, apiCart.addItem(username, productId, 1, authHeader));
+  } catch (error) {
+    console.error("Error adding to cart:", error);
+  }
+};
 
-export function _updateQuantity(item) {
-  return (dispatch, getState) => {
-    const { authHeader, username } = getState().user;
+export const _updateQuantity = (item) => (dispatch, getState) => {
+  try {
+    const { authHeader, username } = getAuthData(getState);
+    handleApiResponse(dispatch, apiCart.addItem(username, item.productId, item.quantity, authHeader));
+  } catch (error) {
+    console.error("Error updating quantity:", error);
+  }
+};
 
-    apiCart
-      .addItem(username, item.productId, item.quantity, authHeader)
-      .then((cart) => {
-        dispatch(updateCart(cart)); 
-      })
-      .catch((err) => console.error("Error updating quantity:", err));
-  };
-}
+export const _removeItem = (item) => (dispatch, getState) => {
+  try {
+    const { authHeader, username } = getAuthData(getState);
+    handleApiResponse(dispatch, apiCart.addItem(username, item.productId, -item.quantity, authHeader));
+  } catch (error) {
+    console.error("Error removing item:", error);
+  }
+};
 
-export function _removeItem(item) {
-  return (dispatch, getState) => {
-    const { authHeader, username } = getState().user; 
-
-    apiCart
-      .addItem(username, item.productId, -item.quantity, authHeader)
-      .then((cart) => {
-        dispatch(updateCart(cart));
-      })
-      .catch((err) => console.error("Error removing item:", err));
-  };
-}
-
-export function _getCart() {
-  return (dispatch, getState) => {
-    const { authHeader, username } = getState().user;
-
-    apiCart
-      .getCart(username, authHeader)
-      .then((cart) => {
-        dispatch(updateCart(cart));
-      })
-      .catch((err) => console.error("Error fetching cart:", err));
-  };
-}
+export const _getCart = () => (dispatch, getState) => {
+  try {
+    const { authHeader, username } = getAuthData(getState);
+    handleApiResponse(dispatch, apiCart.getCart(username, authHeader));
+  } catch (error) {
+    console.error("Error fetching cart:", error);
+  }
+};
