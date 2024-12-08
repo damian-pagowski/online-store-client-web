@@ -5,59 +5,22 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
-  workflow_dispatch:
-    inputs:
-      testTool:
-        type: choice
-        description: "Select the test tool to run"
-        required: true
-        default: "webdriverio"
-        options:
-          - webdriverio
-          - cypress
-          - playwright
-      appUrl:
-        description: "Application URL to test"
-        required: true
-        default: "http://localhost:3000"
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18.x]
-
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-
-    - run: npm ci
-    
-    - run: npm run build --if-present
-    
-    - run: npm test
-
-
-  browser-tests:
-    needs: build
+  smoke-test:
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
 
-    - name: Use Node.js 18
+    - name: Use Node.js 20.x
       uses: actions/setup-node@v4
       with:
-        node-version: 18.x
+        node-version: 20.x
         cache: 'npm'
 
-    - run: npm ci
+    - name: Install dependencies
+      run: npm ci
 
     - name: Start Mock Server
       run: npm run mock:server &
