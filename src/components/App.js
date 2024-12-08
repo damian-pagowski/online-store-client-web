@@ -7,11 +7,8 @@ import Cart from "./cart/Cart";
 import Login from "./login/Login";
 import Register from "./register/Register";
 import { Route, Routes } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import Loader from "./loader/Loader";
-
+import { useDispatch } from "react-redux";
 import { _getCart } from "../action-creators/cart-actions-creator";
-import PaymentResult from "./payment/PaymentResult";
 import { logIn } from "../actions/users-actions";
 import { _getProducts } from "../action-creators/products-actions-creator";
 
@@ -19,7 +16,6 @@ const App = () => {
   const [category, setCategory] = useState(null);
   const [subcategory, setSubcategory] = useState(null);
   const [search, setSearch] = useState(null);
-  const loadingBar = useSelector((state) => state.loadingBar);
   const dispatch = useDispatch();
 
   const resetResults = useCallback(() => {
@@ -50,8 +46,7 @@ const App = () => {
   }, [listProductHandler]);
 
   useEffect(() => {
-    dispatch(_getCart());
-
+    // dispatch(_getCart());
     try {
       const userProfile = localStorage.getItem("shop-user-profile");
       if (userProfile) {
@@ -65,31 +60,19 @@ const App = () => {
 
   return (
     <>
-      {(loadingBar?.default ?? 0) >= 1 ? (
-        <Loader />
-      ) : (
-        <Routes>
-          <Route
-            path="/login"
-            element={<LoginContainer />}
-          />
-          <Route
-            path="/register"
-            element={<LoginContainer />}
-          />
-          <Route
-            path="*"
-            element={
-              <DefaultContainer
-                searchHandler={searchHandler}
-                filterHandler={filterHandler}
-                listProductHandler={listProductHandler}
-                resetResults={resetResults}
-              />
-            }
-          />
-        </Routes>
-      )}
+      <Routes>
+        <Route
+          path="/*"
+          element={
+            <DefaultContainer
+              searchHandler={searchHandler}
+              filterHandler={filterHandler}
+              listProductHandler={listProductHandler}
+              resetResults={resetResults}
+            />
+          }
+        />
+      </Routes>
     </>
   );
 };
@@ -111,18 +94,15 @@ const dataPaymentFailed = {
 };
 
 const DefaultContainer = ({ searchHandler, filterHandler, listProductHandler, resetResults }) => {
-  const loadingBar = useSelector((state) => state.loadingBar);
-
-  return (loadingBar?.default ?? 0) >= 1 ? (
-    <Loader />
-  ) : (
+  return (
     <div>
-      <Navbar searchHandler={searchHandler} />
       <Routes>
         <Route
-          path="/"
+          path="/*"
           element={
             <div>
+                    <Navbar searchHandler={searchHandler} />
+
               <Carousel />
               <ProductListWrapper
                 listProductHandler={listProductHandler}
@@ -133,35 +113,11 @@ const DefaultContainer = ({ searchHandler, filterHandler, listProductHandler, re
           }
         />
         <Route path="/cart" element={<Cart />} />
-        <Route
-          path="/checkout-success"
-          element={<PaymentResult data={dataPaymentSuccess} />}
-        />
-        <Route
-          path="/checkout-fail"
-          element={<PaymentResult data={dataPaymentFailed} />}
-        />
+        <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
       </Routes>
       <Footer />
     </div>
   );
 };
-
-const LoginContainer = () => {
-  const loadingBar = useSelector((state) => state.loadingBar);
-
-  return (loadingBar?.default ?? 0) >= 1 ? (
-    <Loader />
-  ) : (
-    <div className="App">
-      <div className="container">
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-        </Routes>
-      </div>
-    </div>
-  );
-};
-
 export default App;

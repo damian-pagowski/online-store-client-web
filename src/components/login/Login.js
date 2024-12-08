@@ -6,21 +6,25 @@ import logo from "../../assets/images/logo.png";
 import "./Login.css";
 
 const Login = () => {
+  // State for form credentials
   const [credentials, setCredentials] = useState({ username: "", password: "" });
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
 
+  // Handles form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(handleLogin(credentials));
     setCredentials({ username: "", password: "" });
   };
 
+  // Handles input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setCredentials((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Redirect if the user is already logged in
   if (user.token) {
     return <Navigate to="/" replace />;
   }
@@ -58,22 +62,22 @@ const Login = () => {
                 value={credentials.password}
               />
             </div>
+
             {user.message && (
-              <p id="login-error" className="text-danger">Invalid password. Please try again.</p>
+              <p id="login-error" className="text-danger">
+                Invalid password. Please try again.
+              </p>
             )}
-            <button
-              type="submit"
-              className="btn btn-success"
-              id="login-btn"
-            >
+
+            <button type="submit" className="btn btn-success" id="login-btn">
               Login
             </button>
+
             <div className="w-100">
               <p className="text-right p-0">
                 Don't have an account?
                 <Link to="/register" className="text-right w-100" id="link-to-register">
-                  {" "}
-                  register
+                  {" "}register
                 </Link>
               </p>
             </div>
