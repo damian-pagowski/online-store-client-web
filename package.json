@@ -29,8 +29,7 @@
     "dotenv": "^8.2.0",
     "jasmine": "^3.5.0",
     "jasmine-reporters": "^2.3.2",
-    "json-server": "^1.0.0-beta.3",
-    "protractor-jasmine2-html-reporter": "0.0.7"
+    "json-server": "^1.0.0-beta.3"
   },
   "scripts": {
     "start": "react-scripts --openssl-legacy-provider start",
