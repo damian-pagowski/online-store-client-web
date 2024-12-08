@@ -1,5 +1,4 @@
-import React from "react";
-// import Login from "./components/login/Login";
+import React, { useState, useEffect, useCallback } from "react";
 import Navbar from "./navbar/Navbar";
 import Carousel from "./carousel/Carousel";
 import ProductListWrapper from "./product-list-wrapper/ProductListWrapper";
@@ -7,8 +6,8 @@ import Footer from "./footer/Footer";
 import Cart from "./cart/Cart";
 import Login from "./login/Login";
 import Register from "./register/Register";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { connect } from "react-redux";
+import { Route, Routes } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import Loader from "./loader/Loader";
 
 import { _getCart } from "../action-creators/cart-actions-creator";
@@ -16,98 +15,84 @@ import PaymentResult from "./payment/PaymentResult";
 import { logIn } from "../actions/users-actions";
 import { _getProducts } from "../action-creators/products-actions-creator";
 
-class App extends React.Component {
-  state = {
-    category: null,
-    subcategory: null,
-    search: null
-  };
+const App = () => {
+  const [category, setCategory] = useState(null);
+  const [subcategory, setSubcategory] = useState(null);
+  const [search, setSearch] = useState(null);
+  const loadingBar = useSelector((state) => state.loadingBar);
+  const dispatch = useDispatch();
 
-  resetResults = () => {
-    Promise.all([
-      this.setState({
-        ...this.state,
-        ...{
-          category: null,
-          subcategory: null,
-          search: null
-        }
-      })
-    ]).then(() => {
-      this.listProductHandler();
-    });
-  };
+  const resetResults = useCallback(() => {
+    setCategory(null);
+    setSubcategory(null);
+    setSearch(null);
+    listProductHandler();
+  }, []);
 
-  listProductHandler = () => {
-    console.log(" listProductHandler called - app");
-    console.log("state: " + JSON.stringify(this.state));
-    const { category, subcategory, search } = this.state;
-    this.props.dispatch(_getProducts(category, subcategory, search));
-  };
+  const listProductHandler = useCallback(() => {
+    console.log("listProductHandler called - app");
+    console.log("state: ", { category, subcategory, search });
+    dispatch(_getProducts(category, subcategory, search));
+  }, [category, subcategory, search, dispatch]);
 
-  searchHandler = data => {
+  const searchHandler = useCallback((data) => {
     const { search } = data;
-    console.log("Search : " + search);
-    Promise.all([this.setState({ ...this.state, search })]).then(() => {
-      console.log(">> searchHandler called - app");
-      console.log("state: " + JSON.stringify(this.state));
-      this.listProductHandler();
-      console.log("state: " + JSON.stringify(this.state));
-    });
-  };
+    console.log("Search: ", search);
+    setSearch(search);
+    listProductHandler();
+  }, [listProductHandler]);
 
-  filterHandler = (category, subcategory) => {
-    Promise.all([this.setState({ ...this.state, category, subcategory })]).then(
-      () => {
-        console.log(">> filterHandler called - app");
-        console.log("state: " + JSON.stringify(this.state));
-        this.listProductHandler();
-        console.log("state: " + JSON.stringify(this.state));
+  const filterHandler = useCallback((category, subcategory) => {
+    console.log("FilterHandler called with: ", { category, subcategory });
+    setCategory(category);
+    setSubcategory(subcategory);
+    listProductHandler();
+  }, [listProductHandler]);
+
+  useEffect(() => {
+    dispatch(_getCart());
+
+    try {
+      const userProfile = localStorage.getItem("shop-user-profile");
+      if (userProfile) {
+        const data = JSON.parse(userProfile);
+        dispatch(logIn({ ...data }));
       }
-    );
-  };
-
-  componentDidMount() {
-    this.props.dispatch(_getCart());
-    const userProfile = localStorage.getItem("shop-user-profile");
-    if (userProfile) {
-      const data = JSON.parse(userProfile);
-      this.props.dispatch(logIn({ ...data }));
+    } catch (error) {
+      console.error("Error parsing user profile from localStorage", error);
     }
-  }
+  }, [dispatch]);
 
-  render() {
-    console.log("LOADING >> " + this.props.loadingBar.default);
-
-    return (
-      <Router>
-        <Switch>
+  return (
+    <>
+      {(loadingBar?.default ?? 0) >= 1 ? (
+        <Loader />
+      ) : (
+        <Routes>
           <Route
-            exact
             path="/login"
-            render={() => <LoginContainer loadingBar={this.props.loadingBar} />}
+            element={<LoginContainer />}
           />
           <Route
-            exact
             path="/register"
-            render={() => <LoginContainer loadingBar={this.props.loadingBar} />}
+            element={<LoginContainer />}
           />
           <Route
-            render={() => (
+            path="*"
+            element={
               <DefaultContainer
-                loadingBar={this.props.loadingBar}
-                searchHandler={this.searchHandler}
-                filterHandler={this.filterHandler}
-                listProductHandler={this.listProductHandler}
-                resetResults={this.resetResults}
+                searchHandler={searchHandler}
+                filterHandler={filterHandler}
+                listProductHandler={listProductHandler}
+                resetResults={resetResults}
               />
-            )}
+            }
           />
-        </Switch>
-      </Router>
-    );
-  }
-}
+        </Routes>
+      )}
+    </>
+  );
+};
 
 const dataPaymentSuccess = {
   title: "Purchase was successful",
@@ -116,6 +101,7 @@ const dataPaymentSuccess = {
   backUrl: "/",
   backText: "Back to Shop"
 };
+
 const dataPaymentFailed = {
   title: "Payment Failed!",
   message: "Please try again later",
@@ -124,55 +110,58 @@ const dataPaymentFailed = {
   backText: "Back to Cart"
 };
 
-const DefaultContainer = props =>
-  props.loadingBar && props.loadingBar.default >= 1 ? (
+const DefaultContainer = ({ searchHandler, filterHandler, listProductHandler, resetResults }) => {
+  const loadingBar = useSelector((state) => state.loadingBar);
+
+  return (loadingBar?.default ?? 0) >= 1 ? (
     <Loader />
   ) : (
     <div>
-      <Navbar searchHandler={props.searchHandler} />
-      <Route
-        exact
-        path="/"
-        render={() => (
-          <div>
-            <Carousel />
-            <ProductListWrapper
-              listProductHandler={props.listProductHandler}
-              filterHandler={props.filterHandler}
-              resetResults={props.resetResults}
-            />
-          </div>
-        )}
-      />
-      <Route path="/cart" component={Cart} />
-      <Route
-        path="/checkout-success"
-        render={() => <PaymentResult data={dataPaymentSuccess} />}
-      />
-      <Route
-        path="/checkout-fail"
-        render={() => <PaymentResult data={dataPaymentFailed} />}
-      />
+      <Navbar searchHandler={searchHandler} />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <div>
+              <Carousel />
+              <ProductListWrapper
+                listProductHandler={listProductHandler}
+                filterHandler={filterHandler}
+                resetResults={resetResults}
+              />
+            </div>
+          }
+        />
+        <Route path="/cart" element={<Cart />} />
+        <Route
+          path="/checkout-success"
+          element={<PaymentResult data={dataPaymentSuccess} />}
+        />
+        <Route
+          path="/checkout-fail"
+          element={<PaymentResult data={dataPaymentFailed} />}
+        />
+      </Routes>
       <Footer />
     </div>
   );
+};
 
-const LoginContainer = props =>
-  props.loadingBar && props.loadingBar.default >= 1 ? (
+const LoginContainer = () => {
+  const loadingBar = useSelector((state) => state.loadingBar);
+
+  return (loadingBar?.default ?? 0) >= 1 ? (
     <Loader />
   ) : (
     <div className="App">
       <div className="container">
-        <Route path="/login" component={Login} />
-        <Route path="/register" component={Register} />
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
       </div>
     </div>
   );
+};
 
-function mapStateToProps({ loadingBar }) {
-  return {
-    loadingBar
-  };
-}
-
-export default connect(mapStateToProps)(App);
+export default App;
