@@ -34,4 +34,4 @@ jobs:
       run: npx wait-on http://localhost:3000
 
     - name: Run Cypress smoke test
-      run: npx cypress run --spec "test/cypress/e2e/smoketest/smokeTest.spec.js"
+      run: npx cypress run --spec "test/cypress/e2e/smoketest/smokeTest.spec.js" --config-file test/cypress/cypress.config.js
