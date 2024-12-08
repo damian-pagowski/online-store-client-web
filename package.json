@@ -30,8 +30,7 @@
     "jasmine": "^3.5.0",
     "jasmine-reporters": "^2.3.2",
     "json-server": "^1.0.0-beta.3",
-    "protractor-jasmine2-html-reporter": "0.0.7",
-    "wdio-vscode-service": "^6.1.2"
+    "protractor-jasmine2-html-reporter": "0.0.7"
   },
   "scripts": {
     "start": "react-scripts --openssl-legacy-provider start",
