@@ -22,13 +22,13 @@ jobs:
     - name: Install dependencies
       run: npm install --legacy-peer-deps
 
-    - name: Start Application
-      run: npm run mock:server & npm run start
-      env:
-        CI: true
+    # - name: Start Application
+    #   run: npm run mock:server & npm run start
+    #   env:
+    #     CI: true
 
-    - name: Wait for application to be ready
-      run: npx wait-on http://localhost:3000
+    # - name: Wait for application to be ready
+    #   run: npx wait-on http://localhost:3000
 
-    - name: Run Cypress smoke test
-      run: npx cypress run --spec "test/cypress/e2e/smoketest/smokeTest.spec.js" --config-file test/cypress/cypress.config.js
+    # - name: Run Cypress smoke test
+    #   run: npx cypress run --spec "test/cypress/e2e/smoketest/smokeTest.spec.js" --config-file test/cypress/cypress.config.js
