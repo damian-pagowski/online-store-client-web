@@ -1,15 +1,14 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { _getCategories } from "../../action-creators/categories-actions-creator";
-import "./ProductCategories.css";
+import React, { useEffect, useContext, useState } from "react";
+import { CategoriesContext } from "../../context/CategoriesContext";
+import "./Categories.css";
 
-const ProductCategoriesAccordion = ({ filterHandler, resetResults }) => {
-  const dispatch = useDispatch();
-  const categories = useSelector((state) => state.categories);
+const Categories = ({ filterHandler, resetResults }) => {
+  const { categories, fetchCategories } = useContext(CategoriesContext);
+  const [expandedIndex, setExpandedIndex] = useState(null);
 
   useEffect(() => {
-    dispatch(_getCategories());
-  }, [dispatch]);
+    fetchCategories();
+  }, [fetchCategories]);
 
   const toggleIcon = (elementId) => {
     const icon = document.getElementById(elementId);
@@ -17,6 +16,11 @@ const ProductCategoriesAccordion = ({ filterHandler, resetResults }) => {
       icon.classList.toggle("fa-chevron-down");
       icon.classList.toggle("fa-chevron-up");
     }
+  };
+
+  const handleAccordionClick = (index) => {
+    setExpandedIndex((prevIndex) => (prevIndex === index ? null : index));
+    toggleIcon(index)
   };
 
   return (
@@ -49,19 +53,17 @@ const ProductCategoriesAccordion = ({ filterHandler, resetResults }) => {
               <div className="card-header" id={`heading-${index}`}>
                 <h2 className="mb-0">
                   <button
-                    className="btn btn-link collapsed category-name"
+                    className="btn btn-link category-name"
                     type="button"
-                    data-toggle="collapse"
-                    data-target={`#collapse-${index}`}
-                    aria-expanded="false"
+                    onClick={() => handleAccordionClick(index)}
                     id={categories[key].name}
-                    aria-controls={`collapse-${index}`}
-                    onClick={() => toggleIcon(`collapse-${index}-icon`)}
                   >
                     {categories[key].display}{" "}
                     <i
                       id={`collapse-${index}-icon`}
-                      className={`fa fa-chevron-${index === 0 ? "up" : "down"}`}
+                      className={`fa ${
+                        expandedIndex === index ? "fa-chevron-up" : "fa-chevron-down"
+                      }`}
                       aria-hidden="true"
                     ></i>
                   </button>
@@ -70,9 +72,8 @@ const ProductCategoriesAccordion = ({ filterHandler, resetResults }) => {
 
               <div
                 id={`collapse-${index}`}
-                className={`collapse ${index === 0 && "show"}`}
+                className={`collapse ${expandedIndex === index ? "show" : ""}`}
                 aria-labelledby={`heading-${index}`}
-                data-parent={`#product-categories-accordion-${index}`}
               >
                 <div className="card-body">
                   <ul className="list-group">
@@ -98,4 +99,4 @@ const ProductCategoriesAccordion = ({ filterHandler, resetResults }) => {
   );
 };
 
-export default ProductCategoriesAccordion;
+export default Categories;

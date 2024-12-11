@@ -16,7 +16,9 @@ const api = {
       body: JSON.stringify({ username, password }),
     });
   },
-  register(email, password) {
+  register(formData) {
+    const { email, password } = formData;
+    console.log("API, REGISTER, Params: " + email + " "+ password)
     const username = email.split("@")[0];
     return fetchJson(`${BASE_URL}/users`, {
       method: "POST",

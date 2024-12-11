@@ -1,19 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { handleLogout } from "../../action-creators/user-actions-creator";
+import { UserContext } from "../../context/UserContext";
+import { CartContext } from "../../context/CartContext";
 import logo from "../../assets/images/logo.png";
 import "./Navbar.css";
 
 const Navbar = ({ searchHandler }) => {
   const [search, setSearch] = useState("");
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
-  const itemsCount = useSelector((state) => state.cart.itemsCount) || 0;
+  const { user, handleLogout } = useContext(UserContext);
+  const { cart } = useContext(CartContext);
+  const itemsCount = cart?.items?.length || 0;
 
   const logoutHandler = () => {
     console.log("logout");
-    dispatch(handleLogout());
+    handleLogout();
   };
 
   const searchChangeHandler = (event) => {
@@ -84,7 +84,7 @@ const Navbar = ({ searchHandler }) => {
 
         <ul className="navbar-nav ml-auto">
           <li className="nav-item">
-            {user.email ? (
+            {user?.email ? (
               <Link
                 id="logout-link"
                 className="nav-link"

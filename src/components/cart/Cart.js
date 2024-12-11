@@ -1,19 +1,15 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect, useContext } from "react";
 import CartItem from "../cart-item/CartItem";
-import Navbar from "../cart-item/CartItem";
-
 import CartSummary from "../cart-summary/CartSummary";
-import { _getCart } from "../../action-creators/cart-actions-creator";
+import { CartContext } from "../../context/CartContext";
 import "./Cart.css";
 
 const Cart = () => {
-  const dispatch = useDispatch();
-  const cartData = useSelector((state) => state.cart);
+  const { cartData, getCart } = useContext(CartContext);
 
   useEffect(() => {
-    dispatch(_getCart());
-  }, [dispatch]);
+    getCart();
+  }, [getCart]);
 
   return (
     <div>

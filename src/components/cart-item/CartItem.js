@@ -1,13 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./CartItem.css";
 import Select from "react-select";
-import { useDispatch } from "react-redux";
-import { _updateQuantity, _removeItem } from "../../action-creators/cart-actions-creator";
+import { CartContext } from "../../context/CartContext";
 
 const BASE_URL = process.env.REACT_APP_API_URL;
 
 const CartItem = ({ data, currency }) => {
-  const dispatch = useDispatch();
+  const { updateQuantity, removeItem } = useContext(CartContext);
 
   // Generate quantity options (1-10)
   const options = Array.from({ length: 10 }, (_, i) => ({
@@ -17,12 +16,12 @@ const CartItem = ({ data, currency }) => {
 
   // Handle quantity change
   const handleChange = (selectedOption) => {
-    dispatch(_updateQuantity({ productId: data.productId, quantity: selectedOption.value }));
+    updateQuantity({ productId: data.productId, quantity: selectedOption.value });
   };
 
   // Handle item removal
   const handleRemove = () => {
-    dispatch(_removeItem({ productId: data.productId }));
+    removeItem({ productId: data.productId });
   };
 
   return (

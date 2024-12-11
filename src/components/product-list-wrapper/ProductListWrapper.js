@@ -1,31 +1,29 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useContext } from "react";
 import ProductListItem from "../product-list-item/ProductListItem";
-import ProductCategoriesAccordion from "../product-categories/ProductCategories";
+import Categories from "../product-categories/Categories";
+import { ProductContext } from "../../context/ProductContext";
 import "./ProductListWrapper.css";
-import { _getCart } from "../../action-creators/cart-actions-creator";
 
-const ProductListWrapper = ({ listProductHandler, filterHandler, resetResults }) => {
-  const dispatch = useDispatch();
-  const products = useSelector((state) => Object.values(state.products));
-  const currency = useSelector((state) => state.cart.currency);
+const ProductListWrapper = ({ filterHandler, resetResults }) => {
+  const { state, loadProducts } = useContext(ProductContext);
+  const { products, currency, loading, error } = state;
 
   useEffect(() => {
-    dispatch(_getCart());
-    listProductHandler();
-  }, [dispatch, listProductHandler]);
+    loadProducts();
+  }, [loadProducts]);
 
   return (
     <div className="product-list-container">
       <div className="product-list-grid">
         <div className="item1">
-          <ProductCategoriesAccordion
-            listProductHandler={listProductHandler}
+          <Categories
             filterHandler={filterHandler}
             resetResults={resetResults}
           />
         </div>
         <div className="item2">
+          {loading && <p>Loading products...</p>}
+          {error && <p className="alert alert-danger">{error}</p>}
           <ul className="list-unstyled">
             {products && products.length > 0 ? (
               products.map((productData) => (
@@ -36,12 +34,14 @@ const ProductListWrapper = ({ listProductHandler, filterHandler, resetResults })
                 />
               ))
             ) : (
-              <div className="alert alert-danger" role="alert">
-                Sorry, there are no products matching your criteria
-                <a onClick={resetResults} className="alert-link">
-                  {" "}Show All
-                </a>
-              </div>
+              !loading && (
+                <div className="alert alert-danger" role="alert">
+                  Sorry, there are no products matching your criteria
+                  <a onClick={resetResults} className="alert-link" href="/">
+                    {" "}Show All
+                  </a>
+                </div>
+              )
             )}
           </ul>
         </div>

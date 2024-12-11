@@ -1,15 +1,14 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { _addToCart } from "../../action-creators/cart-actions-creator";
+import React, { useContext } from "react";
+import { CartContext } from "../../context/CartContext";
 import "./ProductListItem.css";
 
 const BASE_URL = process.env.REACT_APP_API_URL;
 
 const ProductListItem = ({ data }) => {
-  const dispatch = useDispatch();
+  const { addToCart } = useContext(CartContext);
 
-  const addToCart = () => {
-    dispatch(_addToCart(data));
+  const handleAddToCart = () => {
+    addToCart(data);
   };
 
   return (
@@ -29,6 +28,7 @@ const ProductListItem = ({ data }) => {
               </small>
             ))}
           </div>
+
           <div>
             {[...Array(5)].map((_, index) => (
               <span
@@ -39,7 +39,9 @@ const ProductListItem = ({ data }) => {
               ></span>
             ))}
           </div>
+
           <div className="product-description">{data.description}</div>
+
           <div>
             <h3>
               <span className="badge badge-light mr-2 product-price">
@@ -47,7 +49,7 @@ const ProductListItem = ({ data }) => {
               </span>
               <button
                 className="btn btn-light add-button"
-                onClick={addToCart}
+                onClick={handleAddToCart}
               >
                 <i className="fa fa-cart-plus"></i>
               </button>

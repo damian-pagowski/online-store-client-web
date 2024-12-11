@@ -11,8 +11,8 @@ const fetchJson = (url, options = {}) =>
   
 const apiCart = {
 
-  addItem(username, productId, quantity, authHeader) {
-    const url = `${BASE_URL}/cart/${username}`;
+  addItem(productId, quantity, authHeader) {
+    const url = `${BASE_URL}/cart`;
     const body = { productId, quantity };
 
     return fetchJson(url, {
@@ -25,8 +25,8 @@ const apiCart = {
     });
   },
 
-  getCart(username, authHeader) {
-    const url = `${BASE_URL}/cart/${username}`;
+  getCart( authHeader) {
+    const url = `${BASE_URL}/cart`;
     return fetchJson(url, {
       method: "GET",
       headers: {
@@ -36,8 +36,8 @@ const apiCart = {
     });
   },
 
-  deleteCart(username, authHeader) {
-    const url = `${BASE_URL}/cart/${username}`;
+  deleteCart( authHeader) {
+    const url = `${BASE_URL}/cart`;
     return fetchJson(url, {
       method: "DELETE",
       headers: {

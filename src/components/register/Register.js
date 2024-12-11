@@ -1,18 +1,16 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { handleRegister } from "../../action-creators/user-actions-creator";
+import React, { useState, useContext } from "react";
 import { Navigate, Link } from "react-router-dom";
+import { UserContext } from "../../context/UserContext";
 import logo from "../../assets/images/logo.png";
 import "./Register.css";
 
 const Register = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
+  const { handleRegister, user } = useContext(UserContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(handleRegister(formData));
+    handleRegister(formData);
     setFormData({ email: "", password: "" });
   };
 
@@ -23,7 +21,6 @@ const Register = () => {
 
   if (user.token) {
     return <Navigate to="/" replace />;
-
   }
 
   return (

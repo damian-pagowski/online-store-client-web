@@ -12,7 +12,7 @@ const buildUrl = (base, params = {}) => {
 const fetchJson = (url, options = {}) =>
   fetch(url, { ...options, headers, mode: "cors" }).then((response) =>
     response.json()
-  );
+  ); // 
 
 const api = {
   products(category, sub, search) {

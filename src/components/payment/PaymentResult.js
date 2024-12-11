@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { PaymentContext } from "../../context/PaymentContext";
 import "./PaymentResult.css";
 
-const PaymentResult = ({ data }) => {
-  const { icon, title, message, backUrl, backText } = data;
+const PaymentResult = () => {
+  const { paymentData } = useContext(PaymentContext);
+  const { icon, title, message, backUrl, backText } = paymentData;
 
   return (
     <div className="container">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import Navbar from "./navbar/Navbar";
 import Carousel from "./carousel/Carousel";
 import ProductListWrapper from "./product-list-wrapper/ProductListWrapper";
@@ -7,102 +7,75 @@ import Cart from "./cart/Cart";
 import Login from "./login/Login";
 import Register from "./register/Register";
 import { Route, Routes } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { _getCart } from "../action-creators/cart-actions-creator";
-import { logIn } from "../actions/users-actions";
-import { _getProducts } from "../action-creators/products-actions-creator";
+import { UserContext } from "../context/UserContext";
+import { ProductContext } from "../context/ProductContext";
 
 const App = () => {
-  const [category, setCategory] = useState(null);
-  const [subcategory, setSubcategory] = useState(null);
-  const [search, setSearch] = useState(null);
-  const dispatch = useDispatch();
+  const [filters, setFilters] = useState({ category: null, subcategory: null, search: null });
+  const { handleLogin } = useContext(UserContext);
+  const { loadProducts } = useContext(ProductContext);
 
   const resetResults = useCallback(() => {
-    setCategory(null);
-    setSubcategory(null);
-    setSearch(null);
+    setFilters({ category: null, subcategory: null, search: null });
     listProductHandler();
   }, []);
 
   const listProductHandler = useCallback(() => {
-    console.log("listProductHandler called - app");
-    console.log("state: ", { category, subcategory, search });
-    dispatch(_getProducts(category, subcategory, search));
-  }, [category, subcategory, search, dispatch]);
+    console.log("listProductHandler called - app", filters);
+
+    const { category, subcategory, search } = filters;
+    loadProducts(category, subcategory, search);
+  }, [filters, loadProducts]);
 
   const searchHandler = useCallback((data) => {
     const { search } = data;
-    console.log("Search: ", search);
-    setSearch(search);
+    setFilters(prevFilters => ({ ...prevFilters, search }));
     listProductHandler();
   }, [listProductHandler]);
 
   const filterHandler = useCallback((category, subcategory) => {
-    console.log("FilterHandler called with: ", { category, subcategory });
-    setCategory(category);
-    setSubcategory(subcategory);
+    setFilters(prevFilters => ({ ...prevFilters, category, subcategory }));
     listProductHandler();
   }, [listProductHandler]);
 
   useEffect(() => {
-    // dispatch(_getCart());
     try {
       const userProfile = localStorage.getItem("shop-user-profile");
       if (userProfile) {
         const data = JSON.parse(userProfile);
-        dispatch(logIn({ ...data }));
+        handleLogin(data);
       }
     } catch (error) {
       console.error("Error parsing user profile from localStorage", error);
     }
-  }, [dispatch]);
+  }, [handleLogin]);
 
   return (
-    <>
-      <Routes>
-        <Route
-          path="/*"
-          element={
-            <DefaultContainer
-              searchHandler={searchHandler}
-              filterHandler={filterHandler}
-              listProductHandler={listProductHandler}
-              resetResults={resetResults}
-            />
-          }
-        />
-      </Routes>
-    </>
+    <Routes>
+      <Route
+        path="/*"
+        element={
+          <DefaultContainer
+            searchHandler={searchHandler}
+            filterHandler={filterHandler}
+            listProductHandler={listProductHandler}
+            resetResults={resetResults}
+          />
+        }
+      />
+    </Routes>
   );
-};
-
-const dataPaymentSuccess = {
-  title: "Purchase was successful",
-  message: "Your item will be sent to you within 48 hours.",
-  icon: "fa-check-circle",
-  backUrl: "/",
-  backText: "Back to Shop"
-};
-
-const dataPaymentFailed = {
-  title: "Payment Failed!",
-  message: "Please try again later",
-  backUrl: "/cart",
-  icon: "fa-warning",
-  backText: "Back to Cart"
 };
 
 const DefaultContainer = ({ searchHandler, filterHandler, listProductHandler, resetResults }) => {
   return (
     <div>
+      <Navbar searchHandler={searchHandler} />
       <Routes>
         <Route
-          path="/*"
+          path="/"
           element={
             <div>
-                    <Navbar searchHandler={searchHandler} />
-
               <Carousel />
               <ProductListWrapper
                 listProductHandler={listProductHandler}
@@ -114,10 +87,11 @@ const DefaultContainer = ({ searchHandler, filterHandler, listProductHandler, re
         />
         <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
       <Footer />
     </div>
   );
 };
+
 export default App;

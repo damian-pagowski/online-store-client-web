@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { handleLogin } from "../../action-creators/user-actions-creator";
+import React, { useState, useContext } from "react";
+import { UserContext } from "../../context/UserContext";
 import { Navigate, Link } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import "./Login.css";
@@ -8,14 +7,18 @@ import "./Login.css";
 const Login = () => {
   // State for form credentials
   const [credentials, setCredentials] = useState({ username: "", password: "" });
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
+  const { user, handleLogin } = useContext(UserContext);
 
   // Handles form submission
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   handleLogin(credentials);
+  //   setCredentials({ username: "", password: "" });
+  // };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(handleLogin(credentials));
-    setCredentials({ username: "", password: "" });
+    handleLogin(credentials);
   };
 
   // Handles input changes
@@ -25,7 +28,7 @@ const Login = () => {
   };
 
   // Redirect if the user is already logged in
-  if (user.token) {
+  if (user?.token) {
     return <Navigate to="/" replace />;
   }
 
@@ -63,7 +66,7 @@ const Login = () => {
               />
             </div>
 
-            {user.message && (
+            {user?.message && (
               <p id="login-error" className="text-danger">
                 Invalid password. Please try again.
               </p>
