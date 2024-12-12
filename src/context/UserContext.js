@@ -6,10 +6,8 @@ const USER_LOCAL_STORE_KEY = "shop-user";
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  // **Start with null to signify "user not loaded yet"**
-  const [user, setUser] = useState(null); // Changed from {} to null
+  const [user, setUser] = useState(null);
 
-  // **Load user from localStorage when the app starts**
   useEffect(() => {
     try {
       const storedUser = localStorage.getItem(USER_LOCAL_STORE_KEY);
@@ -26,7 +24,6 @@ export const UserProvider = ({ children }) => {
     }
   }, []);
 
-  // **Login Function**
   const handleLogin = async (credentials) => {
     const { username, password } = credentials;
     try {
@@ -42,7 +39,6 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-  // **Register Function**
   const handleRegister = async (formData) => {
     try {
       const data = await api.register(formData);
@@ -59,7 +55,6 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-  // **Logout Function**
   const handleLogout = useCallback(() => {
     setUser(null);
     localStorage.removeItem(USER_LOCAL_STORE_KEY);

@@ -26,9 +26,7 @@ const CartItem = ({ data, currency }) => {
             <div className="input-group my-3">
               <div className="input-group-prepend">
                 <label className="input-group-text" htmlFor="quantity-select">
-
                   Quantity: {data.quantity}
-
                 </label>
               </div>
 
@@ -43,10 +41,10 @@ const CartItem = ({ data, currency }) => {
               </div>
             </div>
             <div className="badge badge-pill badge-light cart-item-unit-price">
-              {`Unit Price ${currency} ${data.price}`}
+              {`Unit Price ${data.price} ${currency}`}
             </div>
             <div className="badge badge-pill badge-light cart-item-value">
-              {`Subtotal ${currency} ${(data.price * data.quantity).toFixed(2)}`}
+              {`Subtotal ${(data.price * data.quantity).toFixed(2)} ${currency}`}
             </div>
           </div>
         </div>

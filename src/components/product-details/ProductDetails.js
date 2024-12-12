@@ -94,7 +94,7 @@ const ProductDetails = () => {
           <div className="my-4">
           <label htmlFor="quantity" className="form-label">Quantity</label>
 
-          <div class="input-group">
+          <div className="input-group">
 
             <input 
               type="number" 

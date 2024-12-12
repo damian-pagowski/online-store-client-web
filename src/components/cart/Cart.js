@@ -14,13 +14,11 @@ const Cart = () => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
-  // **Fetch cart data on component load**
   useEffect(() => {
     console.log("Fetching cart from API...");
     getCart();
   }, [getCart]);
 
-  // **Fetch product details for the cart items**
   useEffect(() => {
     const fetchCartProducts = async () => {
       if (!cartItems || cartItems.length === 0) {
@@ -50,10 +48,10 @@ const Cart = () => {
     }
   }, [cartItems, products, loadProductById]);
 
-  // **Handle checkout**
+  // ** note for myself in x years: FAKE checkout for testing only!!!**
   const handleCheckout = () => {
-    clearCart(); // Clear the cart via CartContext
-    setCheckoutComplete(true); // Show the checkout success message
+    clearCart();
+    setCheckoutComplete(true); 
   };
 
   if (cartItems === null) {

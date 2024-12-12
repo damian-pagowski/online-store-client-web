@@ -16,7 +16,6 @@ function Carousel() {
       className="carousel slide"
       data-ride="carousel"
     >
-      {/* Carousel Indicators */}
       <ol className="carousel-indicators">
         {images.map((_, index) => (
           <li
@@ -28,7 +27,6 @@ function Carousel() {
         ))}
       </ol>
 
-      {/* Carousel Items */}
       <div className="carousel-inner">
         {images.map((image, index) => (
           <div
@@ -44,7 +42,6 @@ function Carousel() {
         ))}
       </div>
 
-      {/* Carousel Controls */}
       <a
         className="carousel-control-prev"
         href="#carouselProductList"
