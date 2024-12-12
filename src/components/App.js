@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useContext } from "react";
 import Navbar from "./navbar/Navbar";
 import Carousel from "./carousel/Carousel";
 import ProductListWrapper from "./product-list-wrapper/ProductListWrapper";
+import ProductDetails from "./product-details/ProductDetails";
 import Footer from "./footer/Footer";
 import Cart from "./cart/Cart";
 import Login from "./login/Login";
@@ -69,8 +70,8 @@ const App = () => {
 
 const DefaultContainer = ({ searchHandler, filterHandler, listProductHandler, resetResults }) => {
   return (
-    <div>
-      <Navbar searchHandler={searchHandler} />
+    <div className="container" style={{ minWidth: '800px' }}>
+      <Navbar />
       <Routes>
         <Route
           path="/"
@@ -81,12 +82,14 @@ const DefaultContainer = ({ searchHandler, filterHandler, listProductHandler, re
                 listProductHandler={listProductHandler}
                 filterHandler={filterHandler}
                 resetResults={resetResults}
+                searchHandler={searchHandler} 
               />
             </div>
           }
         />
         <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/products/:productId" element={<ProductDetails />} />
         <Route path="/register" element={<Register />} />
       </Routes>
       <Footer />

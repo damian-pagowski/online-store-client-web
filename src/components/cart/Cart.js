@@ -2,18 +2,25 @@ import React, { useEffect, useContext, useState } from "react";
 import CartItem from "../cart-item/CartItem";
 import { CartContext } from "../../context/CartContext";
 import { ProductContext } from "../../context/ProductContext";
+import { UserContext } from "../../context/UserContext";
+import { Link, useNavigate } from "react-router-dom";
 import "./Cart.css";
 
 const Cart = () => {
-  const { state: { cartItems }, getCart } = useContext(CartContext);
+  const { state: { cartItems }, getCart, clearCart } = useContext(CartContext);
   const { state: { products }, loadProductById } = useContext(ProductContext);
   const [cartItemsDetails, setCartItemsDetails] = useState([]);
+  const [checkoutComplete, setCheckoutComplete] = useState(false);
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
 
+  // **Fetch cart data on component load**
   useEffect(() => {
     console.log("Fetching cart from API...");
     getCart();
   }, [getCart]);
 
+  // **Fetch product details for the cart items**
   useEffect(() => {
     const fetchCartProducts = async () => {
       if (!cartItems || cartItems.length === 0) {
@@ -43,6 +50,12 @@ const Cart = () => {
     }
   }, [cartItems, products, loadProductById]);
 
+  // **Handle checkout**
+  const handleCheckout = () => {
+    clearCart(); // Clear the cart via CartContext
+    setCheckoutComplete(true); // Show the checkout success message
+  };
+
   if (cartItems === null) {
     return (
       <div className="cart-container">
@@ -53,30 +66,57 @@ const Cart = () => {
 
   return (
     <div className="cart-container">
-    <div className="cart-grid-container">
-      <div className="item2">
-        <ul>
-          {cartItemsDetails.length > 0 ? (
-            <>
-              {cartItemsDetails.map((item) => (
-                <CartItem data={item} currency="EUR" key={item.productId} />
-              ))}
-                <h2 className="text-center">
-                  TOTAL: EUR {Math.round(cartItemsDetails.reduce((total, item) => total + item.price * item.quantity, 0) * 100) / 100}
-                </h2>
-            </>
+      <div className="cart-grid-container">
+        <div className="item2">
+          <ul>
+
+            {
+              cartItemsDetails.length > 0 ? (
+                <>
+                  {cartItemsDetails.map((item) => (
+                    <CartItem data={item} currency="EUR" key={item.productId} />
+                  ))}
+                  <h2 className="text-center">
+                    TOTAL: EUR {Math.round(cartItemsDetails.reduce((total, item) => total + item.price * item.quantity, 0) * 100) / 100}
+                  </h2>
+                </>
+              ) :  checkoutComplete ? (
+                <div className="alert alert-info mt-4" role="alert">
+                  <h2 className="text-center">Your items will be delivered ASAP!</h2>
+                  <Link to="/" className="btn btn-primary mt-3">Return to Store</Link>
+                </div>
+                ) : (
+                <div className="alert alert-danger mt-5" role="alert">
+                  <h2 className="text-center">Cart Empty</h2>
+                  <Link to="/" className="btn btn-primary mt-3">Return to Store</Link>
+                </div>
+              )}
+          </ul>
+        </div>
+
+        <div className="item1 text-center">
+
+          {
+            cartItemsDetails.length > 0 &&(
+          user?.token ? (
+            <button 
+              className="btn btn-success mt-4" 
+              onClick={handleCheckout}
+            >
+              Checkout Now
+            </button>
           ) : (
-            <div className="alert alert-danger mt-5" role="alert">
-              <h2 className="text-center">Cart Empty</h2>
-            </div>
-          )}
-        </ul>
-      </div>
-      <div className="item1">
-        
+            <button 
+              className="btn btn-info mt-4" 
+              onClick={() => navigate("/register")}
+            >
+              Please Register
+            </button>
+          ))
+        }
+        </div>
       </div>
     </div>
-  </div>
   );
 };
 

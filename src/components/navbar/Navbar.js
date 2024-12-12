@@ -1,29 +1,16 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import logo from "../../assets/images/logo.png";
 import "./Navbar.css";
 
-const Navbar = ({ searchHandler }) => {
-  const [search, setSearch] = useState("");
+const Navbar = () => {
   const { user, handleLogout } = useContext(UserContext);
 
   const logoutHandler = () => {
     console.log("logout");
     handleLogout();
   };
-
-  const searchChangeHandler = (event) => {
-    console.log("search updating...");
-    setSearch(event.target.value);
-  };
-
-  const searchSubmitHandler = (event) => {
-    event.preventDefault();
-    console.log("search submitted...");
-    searchHandler({ search });
-  };
-
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <Link className="navbar-brand" to="/" id="home-link">
@@ -40,45 +27,7 @@ const Navbar = ({ searchHandler }) => {
       >
         <span className="navbar-toggler-icon"></span>
       </button>
-
       <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
-        <ul className="navbar-nav mt-2 mt-lg-0">
-          <li className="nav-item">
-            <Link className="nav-link disabled" to="/">
-              Help
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link disabled" to="/">
-              Gift Cards
-            </Link>
-          </li>
-        </ul>
-
-        <div className="mx-auto order-0">
-          <form
-            className="form-inline my-2 my-lg-0"
-            onSubmit={searchSubmitHandler}
-          >
-            <input
-              className="form-control mr-sm-2"
-              type="search"
-              name="search"
-              id="product-search-input"
-              value={search}
-              onChange={searchChangeHandler}
-              placeholder="Search..."
-            />
-            <button
-              className="btn btn-outline-success my-2 my-sm-0"
-              type="submit"
-              id="product-search-button"
-            >
-              Search
-            </button>
-          </form>
-        </div>
-
         <ul className="navbar-nav ml-auto">
           <li className="nav-item">
             {user?.email ? (
@@ -100,8 +49,10 @@ const Navbar = ({ searchHandler }) => {
             )}
           </li>
           <li className="nav-item mr-4">
-            <Link className="nav-link" to="/cart" id="cart-link">
-           
+            <Link  id="cart-link"
+              className={`nav-link ${!user?.token ? 'disabled' : ''}`} 
+              to={user?.token ? "/cart" : "#"}
+            >
               <i className="fa fa-shopping-cart icon-nav-right"></i>
               Cart
             </Link>

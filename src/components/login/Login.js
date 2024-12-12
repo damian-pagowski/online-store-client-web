@@ -48,7 +48,7 @@ const Login = () => {
               <input
                 type="text"
                 name="username"
-                className="form-control"
+                className="form-control border rounded-pill"
                 id="username"
                 onChange={handleChange}
                 value={credentials.username}
@@ -59,7 +59,7 @@ const Login = () => {
               <input
                 type="password"
                 name="password"
-                className="form-control"
+                className="form-control rounded-pill"
                 id="password"
                 onChange={handleChange}
                 value={credentials.password}

@@ -1,11 +1,15 @@
 import React, { useContext } from "react";
 import { CartContext } from "../../context/CartContext";
+import { UserContext } from "../../context/UserContext";
+import { Link } from "react-router-dom";
+
 import "./ProductListItem.css";
 
 const BASE_URL = process.env.REACT_APP_API_URL;
 
 const ProductListItem = ({ data }) => {
   const { addToCart } = useContext(CartContext);
+  const { user } = useContext(UserContext);
 
   const handleAddToCart = () => {
     addToCart(data);
@@ -21,21 +25,23 @@ const ProductListItem = ({ data }) => {
       <div className="media-body">
         <div className="product-info-wrapper mx-4">
           <div className="mt-1 mb-2">
-            <span className="h5 product-name">{data.name}</span>
+            <span className="h5 product-name">
+            <Link to={`/products/${data.productId}`}>
+              {data.name}
+            </Link>
+            </span>
             {data.badges.map((text, i) => (
               <small key={i}>
                 <span className="badge badge-warning ml-2">{text}</span>
               </small>
             ))}
           </div>
-
           <div>
             {[...Array(5)].map((_, index) => (
               <span
                 key={index}
-                className={`fa fa-star ${
-                  data.rating >= index + 1 ? "checked" : ""
-                }`}
+                className={`fa fa-star ${data.rating >= index + 1 ? "checked" : ""
+                  }`}
               ></span>
             ))}
           </div>
@@ -48,6 +54,7 @@ const ProductListItem = ({ data }) => {
               <button
                 className="btn btn-light add-button"
                 onClick={handleAddToCart}
+                disabled={!user?.token}
               >
                 <i className="fa fa-cart-plus"></i>
               </button>
