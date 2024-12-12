@@ -1,27 +1,14 @@
 import React, { useContext } from "react";
 import "./CartItem.css";
-import Select from "react-select";
 import { CartContext } from "../../context/CartContext";
 
 const BASE_URL = process.env.REACT_APP_API_URL;
 
 const CartItem = ({ data, currency }) => {
-  const { updateQuantity, removeItem } = useContext(CartContext);
+  const { removeFromCart } = useContext(CartContext);
 
-  // Generate quantity options (1-10)
-  const options = Array.from({ length: 10 }, (_, i) => ({
-    value: i + 1,
-    label: `${i + 1}`,
-  }));
-
-  // Handle quantity change
-  const handleChange = (selectedOption) => {
-    updateQuantity({ productId: data.productId, quantity: selectedOption.value });
-  };
-
-  // Handle item removal
   const handleRemove = () => {
-    removeItem({ productId: data.productId });
+    removeFromCart(data);
   };
 
   return (
@@ -39,16 +26,12 @@ const CartItem = ({ data, currency }) => {
             <div className="input-group my-3">
               <div className="input-group-prepend">
                 <label className="input-group-text" htmlFor="quantity-select">
-                  Quantity
+
+                  Quantity: {data.quantity}
+
                 </label>
               </div>
-              <Select
-                className="cart-item-quantity-select"
-                id="quantity-select"
-                value={{ value: data.quantity, label: `${data.quantity}` }}
-                onChange={handleChange}
-                options={options}
-              />
+
               <div className="input-group-append">
                 <button
                   className="btn btn-outline-secondary cart-item-remove"
@@ -63,7 +46,7 @@ const CartItem = ({ data, currency }) => {
               {`Unit Price ${currency} ${data.price}`}
             </div>
             <div className="badge badge-pill badge-light cart-item-value">
-              {`Subtotal ${currency} ${data.subTotal}`}
+              {`Subtotal ${currency} ${(data.price * data.quantity).toFixed(2)}`}
             </div>
           </div>
         </div>

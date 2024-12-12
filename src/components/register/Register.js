@@ -19,7 +19,7 @@ const Register = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  if (user.token) {
+  if (user && user.token) {
     return <Navigate to="/" replace />;
   }
 

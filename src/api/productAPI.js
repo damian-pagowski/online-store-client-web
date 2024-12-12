@@ -12,7 +12,7 @@ const buildUrl = (base, params = {}) => {
 const fetchJson = (url, options = {}) =>
   fetch(url, { ...options, headers, mode: "cors" }).then((response) =>
     response.json()
-  ); // 
+  );
 
 const api = {
   products(category, sub, search) {
@@ -22,6 +22,12 @@ const api = {
     if (search) params.search = search;
     const url = buildUrl(`${BASE_URL}/products`, params);
     return fetchJson(url);
+  },
+
+  productById(id) {
+    const url = buildUrl(`${BASE_URL}/products/${id}`);
+    return fetchJson(url);
+
   },
 
   categories() {

@@ -1,15 +1,12 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
-import { CartContext } from "../../context/CartContext";
 import logo from "../../assets/images/logo.png";
 import "./Navbar.css";
 
 const Navbar = ({ searchHandler }) => {
   const [search, setSearch] = useState("");
   const { user, handleLogout } = useContext(UserContext);
-  const { cart } = useContext(CartContext);
-  const itemsCount = cart?.items?.length || 0;
 
   const logoutHandler = () => {
     console.log("logout");
@@ -104,9 +101,7 @@ const Navbar = ({ searchHandler }) => {
           </li>
           <li className="nav-item mr-4">
             <Link className="nav-link" to="/cart" id="cart-link">
-              <span className="badge badge-pill badge-success" id="cart-size">
-                {itemsCount}
-              </span>
+           
               <i className="fa fa-shopping-cart icon-nav-right"></i>
               Cart
             </Link>

@@ -1,5 +1,6 @@
-import React, { createContext, useReducer, useCallback } from "react";
+import React, { createContext, useReducer, useCallback, useContext, useEffect } from "react";
 import apiCart from "../api/cartAPI";
+import { UserContext } from "./UserContext";
 
 export const CartContext = createContext();
 
@@ -19,33 +20,30 @@ const cartReducer = (state, action) => {
       };
 
     case 'ADD_TO_CART':
-      const existingItem = state.cartItems.find(item => item.productId === action.payload.productId);
-      if (existingItem) {
-        return {
-          ...state,
-          cartItems: state.cartItems.map(item =>
-            item.productId === action.payload.productId
-              ? { ...item, quantity: item.quantity + 1 }
-              : item
-          ),
-        };
-      }
       return { 
         ...state, 
-        cartItems: [...state.cartItems, { ...action.payload, quantity: 1 }] 
+        cartItems: action.payload, 
+        loading: false 
       };
 
     case 'REMOVE_FROM_CART':
       return {
         ...state,
-        cartItems: state.cartItems.filter(item => item.productId !== action.payload.productId),
+        cartItems: action.payload,
       };
 
     case 'SET_LOADING':
-      return { ...state, loading: true };
+      return { 
+        ...state, 
+        loading: true 
+      };
 
     case 'SET_ERROR':
-      return { ...state, error: action.payload, loading: false };
+      return { 
+        ...state, 
+        error: action.payload, 
+        loading: false 
+      };
 
     default:
       return state;
@@ -54,40 +52,90 @@ const cartReducer = (state, action) => {
 
 export const CartProvider = ({ children }) => {
   const [state, dispatch] = useReducer(cartReducer, initialState);
+  const { user } = useContext(UserContext); 
 
-  // Fetch cart from API when app loads
-  const getCart = useCallback(async (authHeader) => {
-    dispatch({ type: 'SET_LOADING' });
+  const getAuthHeader = useCallback(() => {
+    if (!user?.token) {
+      console.warn("User token is missing. Cannot generate Authorization header.");
+      return null;
+    }
+    return `Bearer ${user.token}`;
+  }, [user]);
 
+  const getCart = useCallback(async () => {
+    const authHeader = getAuthHeader();
+    if (!authHeader) {
+      console.warn('User token is not ready. Delaying getCart...');
+      return;
+    }
     try {
       const cartData = await apiCart.getCart(authHeader);
       dispatch({ type: 'SET_CART', payload: cartData });
+      console.log("CART FROM API: " + JSON.stringify(cartData))
     } catch (error) {
       dispatch({ type: 'SET_ERROR', payload: 'Error fetching cart data' });
       console.error("Error fetching cart data", error);
     }
-  }, []);
+  }, [getAuthHeader]);
 
-  const addToCart = useCallback(async (product, authHeader) => {
+  const addToCart = useCallback(async (data) => {
+    const authHeader = getAuthHeader();
+    if (!authHeader) return;
+
+    dispatch({ type: 'SET_LOADING' });
+
     try {
-      const updatedCart = await apiCart.addItem(product.productId, 1, authHeader);
+      const updatedCart = await apiCart.addItem(data.productId, 1, authHeader); 
       dispatch({ type: 'SET_CART', payload: updatedCart });
     } catch (error) {
+      dispatch({ type: 'SET_ERROR', payload: 'Error adding to cart' });
       console.error('Error adding to cart', error);
     }
-  }, []);
+  }, [getAuthHeader]);
 
-  const removeFromCart = useCallback(async (product, authHeader) => {
+
+  const removeFromCart = useCallback(async (data) => {
+    const authHeader = getAuthHeader();
+    if (!authHeader) return;
+
+    dispatch({ type: 'SET_LOADING' });
+    console.log("DELETE CART ITEM"  +JSON.stringify(data))
     try {
-      const updatedCart = await apiCart.addItem(product.productId, -1, authHeader);
+      const updatedCart = await apiCart.addItem(data.productId, -data.quantity, authHeader);
       dispatch({ type: 'SET_CART', payload: updatedCart });
     } catch (error) {
-      console.error('Error adding to cart', error);
+      dispatch({ type: 'SET_ERROR', payload: 'Error removing from cart' });
+      console.error('Error removing from cart', error);
     }
-  }, []);
+  }, [getAuthHeader]);
+
+
+  const clearCart = useCallback(async () => {
+    const authHeader = getAuthHeader();
+    if (!authHeader) return;
+
+    dispatch({ type: 'SET_LOADING' });
+
+    try {
+      await apiCart.deleteCart(authHeader);
+      dispatch({ type: 'SET_CART', payload: [] });
+    } catch (error) {
+      dispatch({ type: 'SET_ERROR', payload: 'Error clearing cart' });
+      console.error('Error clearing cart', error);
+    }
+  }, [getAuthHeader]);
 
   return (
-    <CartContext.Provider value={{ state, getCart, addToCart, removeFromCart }}>
+    <CartContext.Provider 
+      value={{ 
+        state, 
+        dispatch, 
+        getCart, 
+        addToCart, 
+        removeFromCart, 
+        clearCart 
+      }}
+    >
       {children}
     </CartContext.Provider>
   );
