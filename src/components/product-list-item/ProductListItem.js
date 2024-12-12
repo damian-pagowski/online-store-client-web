@@ -39,7 +39,7 @@ const ProductListItem = ({ data }) => {
               ></span>
             ))}
           </div>
-          <div className="product-description">{data.description}</div> // 
+          <div className="product-description">{data.description}</div>
           <div>
             <h3>
               <span className="badge badge-light mr-2 product-price">
