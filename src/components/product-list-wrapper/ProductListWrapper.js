@@ -45,14 +45,14 @@ const ProductListWrapper = ({ filterHandler, resetResults, searchHandler }) => {
           />
         </div>
         <div className="item2">
-          <div className="mx-auto order-0">
+          <div className="mx-auto">
             <form
               className="form-inline my-2 my-lg-0"
               onSubmit={searchSubmitHandler}
             >
-              <div className="input-group">
+              <div className="input-group w-100">
                 <input type="text"
-                  className="form-control"
+                  className="form-control border"
                   id="searchInput"
                   value={search}
                   onChange={searchChangeHandler}
